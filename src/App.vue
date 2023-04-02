@@ -9,9 +9,22 @@
 						:key="column.title"
 						class="rounded-lg px-3 py-3 column-width rounded mr-4 app-kanban-column-left"
 				>
-					<v-btn density="compact" icon="mdi-plus"></v-btn>
-					<v-btn size="x-small">Block Button</v-btn>
-					<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.title}}</p>
+					<v-chip class="w-100" :style="{background: column.background}"  text-color="white" label>{{column.title}}</v-chip>
+
+					<v-container>
+
+					<v-row align="center" justify="center">
+
+						<v-hover>
+							<template v-slot:default="{ isHovering, props }">
+								<v-btn size="small" v-bind="props" :color="isHovering ? 'primary' : undefined" variant="flat" density="compact" icon="mdi-plus"></v-btn>
+							</template>
+						</v-hover>
+
+
+					</v-row>
+					</v-container>
+
 					<!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
 					<draggable
 							v-model="column.tasks"
@@ -47,6 +60,7 @@ export default {
 			columns: [
 				{
 					title: "Новые",
+					background: "#00c4fb",
 					tasks: [
 						{
 							id: 1,
@@ -58,6 +72,7 @@ export default {
 				},
 				{
 					title: "Выполняется",
+					background: "#47d1e2",
 					tasks: [
 						{
 							id: 6,
@@ -69,6 +84,7 @@ export default {
 				},
 				{
 					title: "Согласование",
+					background: "#00736a",
 					tasks: [
 						{
 							id: 9,
@@ -79,6 +95,7 @@ export default {
 				},
 				{
 					title: "Отправка счетов & Архивация",
+					background: "#ff5752",
 					tasks: [
 						{
 							id: 14,
@@ -90,6 +107,7 @@ export default {
 				},
 				{
 					title: "Завершеные",
+					background: "#662793",//#ffab00 #00a74c
 					tasks: [
 						{
 							id: 14,

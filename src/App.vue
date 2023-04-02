@@ -7,7 +7,7 @@
 				<div
 						v-for="column in columns"
 						:key="column.title"
-						class="rounded-lg px-3 py-3 column-width rounded mr-4 app-kanban-column-left"
+						class="ma-1 rounded-lg column-width rounded app-kanban-column-left"
 				>
 					<v-chip class="w-100" :style="{background: column.background}"  text-color="white" label>{{column.title}}</v-chip>
 
@@ -177,8 +177,8 @@ export default {
 
 <style scoped>
 .column-width {
-	min-width: 320px;
-	width: 320px;
+	min-width: 240px;
+	max-width: 320px;
 }
 /* Unfortunately @apply cannot be setup in codesandbox,
 but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */

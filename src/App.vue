@@ -9,7 +9,9 @@
 						:key="column.title"
 						class="ma-1 rounded-lg column-width rounded app-kanban-column-left"
 				>
-					<v-chip class="w-100" :style="{background: column.background}"  text-color="white" label>{{column.title}}</v-chip>
+					<v-chip class="w-100" :style="{background: column.background}"  text-color="white" label>
+						<v-icon start icon="mdi-label"></v-icon>
+						{{column.title}}</v-chip>
 
 					<v-container>
 
@@ -55,6 +57,25 @@ export default {
 		TaskCard,
 		draggable
 	},
+	/*
+	*
+	* новая
+	* обработка заявки(работа с клиентом), //выполняется
+	* //отправка заявки водителю(финальный шаг),
+	*
+	* выполнение(эксплуатация транспорта)
+	* выполнено(эксплуатация транспорта)//завершение выполнение, сдача документов (эксплуатация транспорта)
+	*
+	* //приемка документов(менеджер по транспорту)
+	*
+	* на согласование(менеджер по транспорту)
+	* выполнено(менеджер по транспорту)
+	*
+	* на отправка и архивация(бухгалтерия)
+	* выполнено(бухгалтерия)
+	* Сделано
+	*
+	* */
 	data() {
 		return {
 			columns: [

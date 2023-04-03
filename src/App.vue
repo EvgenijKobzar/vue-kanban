@@ -1,13 +1,13 @@
 <template>
 	<div id="app">
 
-		<div class="flex justify-center">
-			<div class="min-h-screen flex overflow-x-scroll py-12">
+		<div class="d-flex justify-center">
+			<div class="min-h-screen d-flex overflow-x-scroll overflow-y-hidden py-12 px-12">
 
 				<div
 						v-for="column in columns"
 						:key="column.title"
-						class="ma-1 rounded-lg column-width rounded app-kanban-column-left"
+						class="ma-1 rounded-lg column-width app-kanban-column-left"
 				>
 					<v-chip class="w-100" :style="{background: column.background}"  text-color="white" label>
 						<v-icon start icon="mdi-label"></v-icon>
@@ -182,30 +182,51 @@ export default {
 					{
 						console.log(task.Category130CustomFieldStatus)
 					}
-
 				})
-
 			})
-
-
-
-
-
 		})
 	}
 };
 </script>
 
 <style scoped>
-.column-width {
-	min-width: 240px;
-	max-width: 320px;
-}
-/* Unfortunately @apply cannot be setup in codesandbox,
-but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
 .ghost-card {
 	opacity: 0.5;
 	background: #F7FAFC;
 	border: 1px solid #4299e1;
+}
+
+.column-width {
+	min-width: 240px;
+	width: 320px;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.min-h-screen {
+	min-height: 100vh;
+}
+
+.overflow-x-scroll {
+	overflow-x: scroll;
+}
+
+.overflow-y-hidden {
+	overflow-y: hidden;
+}
+
+.py-12 {
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+}
+
+.rounded {
+	border-radius: 0.25rem;
+}
+
+.rounded-lg {
+	border-radius: 0.5rem;
 }
 </style>

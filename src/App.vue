@@ -4,11 +4,15 @@
 		<div class="d-flex justify-center">
 			<div class="min-h-screen d-flex overflow-x-scroll overflow-y-hidden py-12 px-12">
 
+<!--				<Dialog v-if="getDialog(column)" :config="confirm.config" :show="confirm.show"/>-->
+
+
 				<div
 						v-for="column in columns"
 						:key="column.title"
 						class="ma-1 rounded-lg column-width app-kanban-column-left"
 				>
+
 					<v-chip class="w-100" :style="{background: column.background}" text-color="white" label>
 						<v-icon start icon="mdi-label"/>
 						{{column.title}}</v-chip>
@@ -22,17 +26,21 @@
 							</v-hover>
 						</v-row>
 					</v-container>
-
+<!--					-->
 					<!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
+<!--					@update:modelValue="modelValue"-->
 					<draggable
 							v-model="column.tasks"
 							:animation="200"
+
 							ghost-class="ghost-card"
 							group="tasks"
 							itemKey="id"
+							:move="move"
+							@change="changes"
 					>
 									<template #item="{ element, index }">
-										<task-card :task="element" class="mt-3 cursor-move"/>
+										<task-card :task="element" class="mt-3 cursor-move" data-status="activated"/>
 									</template>
 					</draggable>
 				</div>
@@ -44,6 +52,7 @@
 <script>
 import draggable from "vuedraggable";
 import TaskCard from "./components/TaskCard.vue";
+import Dialog from "./components/Dialog.vue";
 import axios from "axios";
 import { DateTime } from "luxon";
 
@@ -51,7 +60,8 @@ export default {
 	name: "App",
 	components: {
 		TaskCard,
-		draggable
+		draggable,
+		Dialog,
 	},
 	/*
 	*
@@ -74,13 +84,23 @@ export default {
 	* */
 	data() {
 		return {
+			confirm: {
+				show: false,
+				config: {}
+			},
 			columns: [
 				{
 					title: "Новые",
 					background: "#00c4fb",
 					tasks: [
 						{
-							id: 1,
+							id: 142,
+							title: "Add discount code to checkout page",
+							date: "Sep 14",
+							type: "Feature Request"
+						},
+						{
+							id: 112,
 							title: "Add discount code to checkout page",
 							date: "Sep 14",
 							type: "Feature Request"
@@ -90,49 +110,78 @@ export default {
 				{
 					title: "Выполняется (менеджер)",
 					background: "#47d1e2",
-					tasks: [
-						{
-							id: 6,
-							title: "Design shopping cart dropdown",
-							date: "Sep 9",
-							type: "Design"
-						},
-					]
+					tasks: []
 				},
 				{
 					title: "К перевозке (транспорт)",
 					background: "#00736a",
-					tasks: [
-						{
-							id: 9,
-							title: "Provide documentation on integrations",
-							date: "Sep 12"
-						},
-					]
+					tasks: [],
+					dialog: {
+						confirm: ""
+						/*
+						* Информация для перевозки
+						* - водитель проинформирован
+						* по дате														checkbox
+						* месте															checkbox
+						* контактах на загрузке/выгрузке		checkbox
+						* - водитель получил заявку					checkbox
+						* */
+					}
 				},
 				{
 					title: "Выполнено (транспорт)",
 					background: "#ff5752",
-					tasks: [
-						{
-							id: 14,
-							title: "Add discount code to checkout page",
-							date: "Sep 14",
-							type: "Feature Request"
-						},
-					]
+					tasks: []
+				},
+				{
+					title: "Счета (бухгалтерия)",
+					background: "#ff00ff",
+					tasks: [],
+					dialog: {
+						confirm: [
+								{
+									title: 'Выставление счетов',
+									items: [
+											{
+												name: 'Клиент (ссылка в 4Logistic)',
+												type: 'text'
+											},
+										{
+												name: 'итоговая сумма для выставления счета',
+												type: 'text'
+											},
+										{
+												name: 'дополнительная информация для выставления счета',
+												type: 'text'
+											},
+
+									]
+								},
+						]
+						/*
+						* Выставление счетов
+						* - Клиент (ссылка в 4Logistic)											text
+						* - итоговая сумма для выставления счета						text
+						* - дополнительная информация для выставления счета	text
+						* */
+					}
+				},
+				{
+					title: "Выполнено (бухгалтерия)",
+					background: "#aba100",
+					tasks: [],
+					dialog: {
+						confirm: ""
+						/*
+						* Выставление счетов
+						* - Акт и счет прикреплены к задаче	checkbox
+						* */
+					}
 				},
 				{
 					title: "На согласование (менеджер)",
-					background: "#662793",//#ffab00 #00a74c
-					tasks: [
-						{
-							id: 14,
-							title: "Add discount code to checkout page",
-							date: "Sep 14",
-							type: "Feature Request"
-						},
-					]
+					background: "#662793",
+					tasks: []
 				},
 				{
 					title: "На отправке (бухгалтерия)",
@@ -142,25 +191,92 @@ export default {
 				{
 					title: "Выполнено (бухгалтерия)",
 					background: '#ffab00',
-					tasks: []
+					tasks: [],
+					dialog: {
+						confirm: ""
+						/*
+						* Отправка документов
+						* - курьерская служба text
+						* - трек							text
+						* - отвозим сами 			checkbox
+						* Архивация
+						* - номер в архиве		text
+						* */
+					}
 				},
 				{
 					title: "Сделано",
 					background: '#00a74c',
-					tasks: []
+					tasks: [],
+					dialog: {
+						confirm: ""
+						/*
+						*
+						* */
+					}
 				}
 			]
 		};
 	},
+	// computed: {
+	//
+	// 	getDialog: function ()
+	// 	{
+	// 		return this.column?.dialog.confirm
+	// 	}
+	// },
 	methods: {
-		dragEnd(e)
+
+		getDialog(column)
 		{
-			// const animations = [];
-			//
-			// this.columns.forEach(()=>)
-			//
-			// console.log('tasks', this.columns.tasks)
-		}
+			return column?.dialog ? column.dialog.confirm : null
+		},
+
+		move(e, originalEvent)
+		{
+			// console.log(originalEvent)
+			// return false;
+		},
+
+		changes(originalEvent) {
+
+			if (originalEvent?.removed)
+			{
+				console.log('removed', originalEvent?.removed.element.id)
+			}
+			else if(originalEvent?.added)
+			{
+				console.log('added', originalEvent?.added.element.id)
+				const item = originalEvent?.added.element;
+
+				this.columns.forEach((column) => {
+
+					column.tasks.forEach((task) => {
+						if(task.id === item.id)
+						{
+							if (column?.dialog)
+							{
+								this.confirm.show = true
+							}
+						}
+					})
+				})
+			}
+			else if(originalEvent?.moved)
+			{
+				console.log('moved', originalEvent?.moved.element.id)
+			}
+			else
+			{
+				console.log('AHTUNG', originalEvent)
+			}
+		},
+
+		modelValue(value)
+		{
+			console.log('value', value)
+			return true;
+		},
 	},
 	mounted() {
 

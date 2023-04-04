@@ -1,27 +1,41 @@
 <template>
 
-  <div class="bg-white shadow rounded px-3 pt-3 pb-5 border border-white">
+  <div class="bg-white shadow rounded px-3 pt-3 pb-5 border border-white" :data-card-task="task.id" >
     <div class="d-flex justify-between">
       <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{task.title}}</p>
-      <img
-        class="w-6 h-6 rounded-full ml-3 "
-        src="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"
-        alt="Avatar"
-      >
+			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>
     </div>
 		<div class="d-flex mt-3 justify-between text-sm" v-html="task.subject"></div>
     <div class="d-flex mt-3 justify-between items-center">
-      <span class="text-sm text-gray-600">{{task.date}}</span>
-      <badge v-if="task.type" :color="badgeColor">{{task.type}}</badge>
+			<v-chip
+					class="ma-2"  size="small"
+					color="primary"
+					variant="elevated"
+			>
+				{{getDate(task.date)}}
+
+			</v-chip>
+<!--      <span class="text-sm text-gray-600">{{task.date}}</span>-->
+
+			<v-chip
+					class="ma-2" size="small"
+					color="red"
+					text-color="white"
+			>
+<!--				{{task.type}}-->
+				Р406КВ 39
+			</v-chip>
     </div>
   </div>
 
 </template>
 <script>
 import Badge from "./Badge.vue";
+import Dialog from "./Dialog.vue";
 export default {
   components: {
-    Badge
+    Badge,
+		Dialog
   },
   props: {
     task: {
@@ -29,6 +43,12 @@ export default {
       default: () => ({})
     }
   },
+	methods: {
+		getDate(value)
+		{
+			return value.split(' ')[0] + ' ' +	value.split(' ')[1]
+		}
+	},
   computed: {
     badgeColor() {
       const mappings = {

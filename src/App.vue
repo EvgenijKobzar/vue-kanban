@@ -9,22 +9,18 @@
 						:key="column.title"
 						class="ma-1 rounded-lg column-width app-kanban-column-left"
 				>
-					<v-chip class="w-100" :style="{background: column.background}"  text-color="white" label>
-						<v-icon start icon="mdi-label"></v-icon>
+					<v-chip class="w-100" :style="{background: column.background}" text-color="white" label>
+						<v-icon start icon="mdi-label"/>
 						{{column.title}}</v-chip>
 
 					<v-container>
-
-					<v-row align="center" justify="center">
-
-						<v-hover>
-							<template v-slot:default="{ isHovering, props }">
-								<v-btn size="small" v-bind="props" :color="isHovering ? 'primary' : undefined" variant="flat" density="compact" icon="mdi-plus"></v-btn>
-							</template>
-						</v-hover>
-
-
-					</v-row>
+						<v-row align="center" justify="center">
+							<v-hover>
+								<template v-slot:default="{ isHovering, props }">
+									<v-btn size="small" v-bind="props" :color="isHovering ? 'primary' : undefined" variant="flat" density="compact" icon="mdi-plus"></v-btn>
+								</template>
+							</v-hover>
+						</v-row>
 					</v-container>
 
 					<!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
@@ -63,15 +59,15 @@ export default {
 	* обработка заявки(работа с клиентом), //выполняется
 	* //отправка заявки водителю(финальный шаг),
 	*
-	* выполнение(эксплуатация транспорта)
-	* выполнено(эксплуатация транспорта)//завершение выполнение, сдача документов (эксплуатация транспорта)
+	* выполнение(эксплуатация транспорта) //перевозка
+	* (эксплуатация транспорта)//завершение выполнение, сдача документов (эксплуатация транспорта)
 	*
 	* //приемка документов(менеджер по транспорту)
 	*
-	* на согласование(менеджер по транспорту)
-	* выполнено(менеджер по транспорту)
+	* на согласование(менеджер по транспорту) //приемка документов(бумажный/электронный вид) + согласование
+	* //выполнено(менеджер по транспорту)
 	*
-	* на отправка и архивация(бухгалтерия)
+	* на отправка(бухгалтерия) // архивация и отправка
 	* выполнено(бухгалтерия)
 	* Сделано
 	*
@@ -92,7 +88,7 @@ export default {
 					]
 				},
 				{
-					title: "Выполняется",
+					title: "Выполняется (менеджер)",
 					background: "#47d1e2",
 					tasks: [
 						{
@@ -104,7 +100,7 @@ export default {
 					]
 				},
 				{
-					title: "Согласование",
+					title: "К перевозке (транспорт)",
 					background: "#00736a",
 					tasks: [
 						{
@@ -115,7 +111,7 @@ export default {
 					]
 				},
 				{
-					title: "Отправка счетов & Архивация",
+					title: "Выполнено (транспорт)",
 					background: "#ff5752",
 					tasks: [
 						{
@@ -127,7 +123,7 @@ export default {
 					]
 				},
 				{
-					title: "Завершеные",
+					title: "На согласование (менеджер)",
 					background: "#662793",//#ffab00 #00a74c
 					tasks: [
 						{
@@ -137,6 +133,21 @@ export default {
 							type: "Feature Request"
 						},
 					]
+				},
+				{
+					title: "На отправке (бухгалтерия)",
+					background: '#468ee5',
+					tasks: []
+				},
+				{
+					title: "Выполнено (бухгалтерия)",
+					background: '#ffab00',
+					tasks: []
+				},
+				{
+					title: "Сделано",
+					background: '#00a74c',
+					tasks: []
 				}
 			]
 		};

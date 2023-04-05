@@ -13,7 +13,8 @@
     "luxon": "^3.3.0",
     "vue": "^3.2.47",
     "vuedraggable": "^4.1.0",
-    "vuetify": "^3.1.12"
+    "vuetify": "^3.1.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@mdi/font": "^7.2.96",

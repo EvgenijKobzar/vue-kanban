@@ -1,14 +1,17 @@
 import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+
+import Kanban from './application/kanban.vue';
+
+// Vuex
+import store from './store/index'
 
 // Vuetify
-
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+
 
 const vuetify = createVuetify({
 	components,
@@ -18,6 +21,4 @@ const vuetify = createVuetify({
 	},
 })
 
-
-
-createApp(App).use(vuetify).mount('#app')
+createApp(Kanban).use(store).use(vuetify).mount('#kanban-app')

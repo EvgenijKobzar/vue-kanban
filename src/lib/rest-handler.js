@@ -43,14 +43,18 @@ export default class RestHandler
 
 	#refresh(r)
 	{
-		const result = []
+		const columns = []
+
+		this.state.commit(MutationTypes.CLEAR);
+
 		const uniq = this.#getUniqColumns(r.tasks)
 
 		uniq.forEach((title) => {
-			result.push(this.#getTaskListByColum(r.tasks, title))
+
+			columns.push(this.#getTaskListByColum(r.tasks, title))
 		})
 
-		result.forEach((item) => {
+		columns.forEach((item) => {
 
 			this.state.commit(MutationTypes.ADD_ITEM, {
 				fields: {

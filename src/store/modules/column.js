@@ -154,6 +154,10 @@ export default class Column
 					item.sort = index + 1;
 				});
 			},
+			[MutationTypes.CLEAR]: (state) =>
+			{
+				state.column = [];
+			},
 		}
 	}
 

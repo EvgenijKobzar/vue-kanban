@@ -4,7 +4,6 @@
 
 <script setup>
 	import KanbanStageItem from "./kanban-stage-item.vue";
-
 	import { computed } from 'vue'
 	import { useStore } from 'vuex'
 

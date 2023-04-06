@@ -8,10 +8,10 @@
 		<div class="d-flex mt-3 justify-between items-center">
 			<v-chip
 					class="ma-2"  size="small"
-					color="primary"
+					color="blue-lighten-1"
 					variant="elevated"
 			>
-				{{item.date}}
+				{{dateFormatted}}
 
 			</v-chip>
 			<!--      <span class="text-sm text-gray-600">{{item.date}}</span>-->
@@ -29,9 +29,18 @@
 </template>
 
 <script setup>
+	import { computed } from 'vue'
+
 	const props = defineProps([
 		'item',
 	]);
+
+	const dateFormatted = computed(() => props.item.date.split(' ')[0] + ' ' +	props.item.date.split(' ')[1])
+
+	function getDate(value)
+	{
+		return
+	}
 
 </script>
 

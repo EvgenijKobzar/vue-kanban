@@ -125,6 +125,19 @@ export default class Stage
 					})
 					.catch((result) => handler.execute(cmd, {error: result.errors}));
 				})
+			},
+			updateTask(state, payload)
+			{
+				return new Promise((resolve, reject) =>
+				{
+					const cmd = 'task.task.update';
+
+					(new Rest({
+						cmd,
+						id: payload.id,
+						fields: payload.fields
+					}))
+				})
 			}
 		}
 	}

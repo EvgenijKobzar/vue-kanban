@@ -2,7 +2,7 @@
 	<div class="ma-1 rounded-lg column-width app-kanban-column-left">
 		<KanbanStageItemLabel :item="item"/>
 		<Plus/>
-		<KanbanCardList :stage="item"/>
+		<KanbanCardList :stage="item" />
 	</div>
 
 </template>

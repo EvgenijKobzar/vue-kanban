@@ -1,5 +1,5 @@
 <template>
-	<v-overlay v-model="state.overlay"></v-overlay>
+	<v-overlay v-model="state.overlay"/>
 	<KanbanArea/>
 </template>
 

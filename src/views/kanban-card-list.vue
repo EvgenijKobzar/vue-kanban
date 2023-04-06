@@ -4,16 +4,15 @@
 			:animation="200"
 			ghost-class="ghost-card"
 			group="tasks"
-			itemKey="id">
+			itemKey="id"
+			@change="onStageChange"
+	>
 
 <!--		:move="move"-->
-<!--		@change="changes"-->
 		<template #item="{ element, index }">
-			<KanbanCardItem :item="element"/>
+			<KanbanCardItem :item="element" class="mt-3 cursor-move"/>
 		</template>
 	</draggable>
-
-
 </template>
 
 <script setup>
@@ -30,11 +29,9 @@
 
 	const store = useStore()
 	const items = computed({
-		// getter
 		get() {
 			return store.getters.getStageByName(props.stage.title).tasks
 		},
-		// setter
 		set(items) {
 			const stage = store.getters.getStageByName(props.stage.title);
 			const params =
@@ -49,6 +46,11 @@
 			store.commit(MutationTypes.UPD_ITEM, params);
 		}
 	})
+
+	function onChange(e)
+	{
+		console.log(e)
+	}
 
 	function modelValue(value)
 	{
@@ -71,40 +73,40 @@
 		// return false;
 	}
 
-	function changes(originalEvent)
+	function onStageChange(originalEvent)
 	{
+		const item = originalEvent?.added
+				? originalEvent.added.element
+				: originalEvent?.moved
+						? originalEvent.moved.element
+						: null
 
-		console.log(originalEvent);
-		// if (originalEvent?.removed)
-		// {
-		// 	console.log('removed', originalEvent?.removed.element.id)
-		// }
-		// else if(originalEvent?.added)
-		// {
-		// 	console.log('added', originalEvent?.added.element.id)
-		// 	const item = originalEvent?.added.element;
-		//
-		// 	this.columns.forEach((column) => {
-		//
-		// 		column.tasks.forEach((task) => {
-		// 			if(task.id === item.id)
-		// 			{
-		// 				if (column?.dialog)
-		// 				{
-		// 					this.confirm.show = true
-		// 				}
-		// 			}
-		// 		})
-		// 	})
-		// }
-		// else if(originalEvent?.moved)
-		// {
-		// 	console.log('moved', originalEvent?.moved.element.id)
-		// }
-		// else
-		// {
-		// 	console.log('AHTUNG', originalEvent)
-		// }
+		if (item?.id)
+		{
+			store.dispatch('updateTask', {
+				id: item.id,
+				fields: {
+					customFieldStatus: props.stage.title
+				}
+			});
+		}
+
+		if (originalEvent?.removed)
+		{
+			console.log('removed', originalEvent?.removed.element.id)
+		}
+		else if(originalEvent?.added)
+		{
+			console.log('moved', originalEvent.added)
+		}
+		else if(originalEvent?.moved)
+		{
+			console.log('moved', originalEvent.moved)
+		}
+		else
+		{
+			console.log('AHTUNG', originalEvent)
+		}
 	}
 
 

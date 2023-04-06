@@ -54,11 +54,16 @@
   padding-right: 3rem;
 }
 
-.ghost-card {
-  opacity: 0.5;
-  background: #F7FAFC;
-  border: 1px solid #4299e1;
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
+
+.ghost-card {
+   opacity: 0.5;
+   background: #F7FAFC;
+   border: 1px solid #4299e1;
+ }
 
 .column-width {
   min-width: 240px;
@@ -81,9 +86,8 @@
   overflow-y: hidden;
 }
 
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+.overflow-x-hidden {
+  overflow-x: hidden;
 }
 
 .rounded {

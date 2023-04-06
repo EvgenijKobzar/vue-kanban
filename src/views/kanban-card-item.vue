@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white shadow rounded px-3 pt-3 pb-5 border border-white" :data-card-task="item.id" >
+	<div class="bg-white shadow rounded px-3 pt-3 pb-5 border border-white" >
 		<div class="d-flex justify-between">
 			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{item.title}}</p>
 			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>

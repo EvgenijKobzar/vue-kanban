@@ -1,15 +1,10 @@
 <template>
-
-
 	<draggable
-			v-model="myList"
+			v-model="items"
 			:animation="200"
-
 			ghost-class="ghost-card"
 			group="tasks"
-			itemKey="id"
-
-	>
+			itemKey="id">
 
 <!--		:move="move"-->
 <!--		@change="changes"-->
@@ -33,16 +28,14 @@
 		'stage',
 	]);
 
-
 	const store = useStore()
-	const myList = computed({
+	const items = computed({
 		// getter
 		get() {
 			return store.getters.getStageByName(props.stage.title).tasks
 		},
 		// setter
-		set(newValue) {
-
+		set(items) {
 			const stage = store.getters.getStageByName(props.stage.title);
 			const params =
 			{
@@ -50,7 +43,7 @@
 				fields: {
 					title: stage.title,
 					background: stage.background,
-					tasks: newValue
+					tasks: items
 				}
 			}
 			store.commit(MutationTypes.UPD_ITEM, params);

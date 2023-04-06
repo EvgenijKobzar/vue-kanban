@@ -1,5 +1,4 @@
 import {MutationTypes} from "../enum/mutation-types.js";
-import Column from "../store/modules/column.js";
 import {StageColor, StageColorPack} from "../enum/stage-color.js";
 import Type from "./type.js";
 
@@ -47,7 +46,7 @@ export default class RestHandler
 	{
 		this.state.commit(MutationTypes.CLEAR);
 
-		// const uniq = this.#getUniqColumns(r.tasks)
+		// const uniq = this.#getUniqStages(r.tasks)
 		const uniq =  [
 			"Новые",
 			"Выполняется (менеджер)",
@@ -61,19 +60,19 @@ export default class RestHandler
 			"Сделано",
 		];
 
-		const columns = this.#createColumnCollection(uniq)
+		const stages = this.#createStageCollection(uniq)
 
-		columns.forEach((column) => {
+		stages.forEach((stage) => {
 
-			column.tasks = this.#getTaskListByColum(r.tasks, column)
+			stage.tasks = this.#getTaskListByStageName(r.tasks, stage.title)
 
-			this.state.commit(MutationTypes.ADD_ITEM, { fields: column });
+			this.state.commit(MutationTypes.ADD_ITEM, { fields: stage });
 		})
 	}
 
-	#createColumnCollection(items)
+	#createStageCollection(items)
 	{
-		const columns = [];
+		const stages = [];
 		const firstInx = 0;
 		const lastInx = items.length-1;
 		let pack = [];
@@ -87,7 +86,7 @@ export default class RestHandler
 
 			let background = pack.shift();
 
-			columns.push({
+			stages.push({
 				title: title,
 				background: inx === firstInx
 					? StageColor.FIRST
@@ -97,10 +96,10 @@ export default class RestHandler
 			})
 		})
 
-		return columns;
+		return stages;
 	}
 
-	#getUniqColumns(items)
+	#getUniqStages(items)
 	{
 		const result = [];
 
@@ -114,12 +113,12 @@ export default class RestHandler
 		return  [ ...new Set(result) ];
 	}
 
-	#getTaskListByColum(items, column)
+	#getTaskListByStageName(items, name)
 	{
 		const result = [];
 
 		items.forEach((item) => {
-			if( column.title === item?.Category130CustomFieldStatus)
+			if( name === item?.Category130CustomFieldStatus)
 			{
 				result.push({
 					id: item.id,

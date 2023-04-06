@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
-import Column from "./modules/column.js";
+import Stage from "./modules/stage.js";
 
-const Module = new Column();
+const Module = new Stage();
 
 export default createStore({
 	modules: {

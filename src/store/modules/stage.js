@@ -7,16 +7,16 @@ import {DateTime} from "luxon";
 import RestHandler from "../../lib/rest-handler.js";
 
 
-export default class Column
+export default class Stage
 {
 	getName()
 	{
-		return Module.COLUMN
+		return Module.STAGE
 	}
 	getState()
 	{
 		return {
-			column: [],
+			stage: [],
 			errors: []
 		}
 	}
@@ -45,15 +45,15 @@ export default class Column
 	{
 		const result = {};
 
-		if (Type.isObject(fields.column))
+		if (Type.isObject(fields.stage))
 		{
-			result.column = Column.validateColumn(fields.column);
+			result.stage = Stage.validateStage(fields.stage);
 		}
 
 		return result;
 	}
 
-	static validateColumn(fields)
+	static validateStage(fields)
 	{
 		const result = {};
 
@@ -71,7 +71,7 @@ export default class Column
 		{
 			result.tasks = [];
 			fields.tasks.forEach((item)=>{
-				let fields = Column.validateTasks(item);
+				let fields = Stage.validateTasks(item);
 				result.tasks.push(fields);
 			})
 		}
@@ -133,7 +133,7 @@ export default class Column
 		return {
 			[MutationTypes.ADD_ITEM]: (state, payload) =>
 			{
-				payload.fields = Column.validateColumn(payload.fields);
+				payload.fields = Stage.validateStage(payload.fields);
 
 				let item = this.getBaseItem();
 
@@ -142,21 +142,21 @@ export default class Column
 				if (Type.isObject(item.tasks))
 				{
 					item.tasks.forEach((fields, index)=>{
-						let task = Column.getTasksItem();
+						let task = Stage.getTasksItem();
 						task = Object.assign(task, fields);
 
 						item.tasks[index] = task;
 					})
 				}
 
-				state[Module.COLUMN].push(item);
-				state[Module.COLUMN].forEach((item, index) => {
+				state[Module.STAGE].push(item);
+				state[Module.STAGE].forEach((item, index) => {
 					item.sort = index + 1;
 				});
 			},
 			[MutationTypes.CLEAR]: (state) =>
 			{
-				state.column = [];
+				state.stage = [];
 			},
 		}
 	}
@@ -166,7 +166,7 @@ export default class Column
 		return {
 			getStages: state =>
 			{
-				return state[Module.COLUMN];
+				return state[Module.STAGE];
 			},
 			getErrors: state =>
 			{

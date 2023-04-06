@@ -1,9 +1,10 @@
 import Type from "../../lib/type.js";
 import Text from "../../lib/text.js";
 import {Module} from "../../enum/module.js";
-import {Mutation} from "../../enum/mutation.js";
+import {MutationTypes} from "../../enum/mutation-types.js";
 import Rest from "../../provider/rest.js";
 import {DateTime} from "luxon";
+import RestHandler from "../../lib/rest-handler.js";
 
 
 export default class Column
@@ -108,59 +109,21 @@ export default class Column
 	getActions()
 	{
 		return {
-			addItem: ({ commit }, payload) =>
-			{
-				payload.fields = Column.validateColumn(payload.fields);
-				commit('addItem', payload);
-			},
-
-			init({ commit })
+			init(state)
 			{
 				return new Promise((resolve, reject) =>
 				{
-					// const cmd = this.serviceName + 'list';
 					const cmd = 'task.task.list';
+					const handler = new RestHandler({ state });
 
 					(new Rest({
 						cmd
 					}))
-					.then((r) => {
-
-						const columns = [];
-
-						r.data.tasks.forEach((task) => {
-							if (task?.Category130CustomFieldStatus)
-							{
-								columns.push(task.Category130CustomFieldStatus)
-							}
-						})
-
-						const uniq = [ ...new Set(columns) ];
-						uniq.forEach((title) => {
-							let list = [];
-							r.data.tasks.forEach((task) => {
-								if( title === task?.Category130CustomFieldStatus)
-								{
-									list.push({
-										id: task.id,
-										title: task.name,
-										date: task.timeCreated.value,
-										type: task.parent.name,
-									})
-								}
-							})
-
-							const fields =  Column.validate({column: {
-									title: title,
-									background: "#00c4fb",
-									tasks: list
-								}});
-
-							commit(Mutation.ADD_ITEM, {fields: fields.column});
-						})
-
+					.then((result) => {
+						handler.execute(cmd, result);
 						resolve()
 					})
+					.catch((result) => handler.execute(cmd, {error: result.errors}));
 				})
 			}
 		}
@@ -168,8 +131,10 @@ export default class Column
 	getMutations()
 	{
 		return {
-			[Mutation.ADD_ITEM]: (state, payload) =>
+			[MutationTypes.ADD_ITEM]: (state, payload) =>
 			{
+				payload.fields = Column.validateColumn(payload.fields);
+
 				let item = this.getBaseItem();
 
 				item = Object.assign(item, payload.fields);

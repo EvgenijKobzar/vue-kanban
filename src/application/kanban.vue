@@ -9,7 +9,6 @@
 
 	import { reactive, onMounted } from 'vue'
 	import { useStore } from 'vuex'
-	import {Status} from "../enum/loader.js";
 
 	const store = useStore()
 

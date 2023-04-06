@@ -1,5 +1,7 @@
 import {MutationTypes} from "../enum/mutation-types.js";
 import Column from "../store/modules/column.js";
+import {StageColor, StageColorPack} from "../enum/stage-color.js";
+import Type from "./type.js";
 
 export default class RestHandler
 {
@@ -43,29 +45,46 @@ export default class RestHandler
 
 	#refresh(r)
 	{
-		const columns = []
-
 		this.state.commit(MutationTypes.CLEAR);
 
 		const uniq = this.#getUniqColumns(r.tasks)
+		const columns = this.#createColumnCollection(uniq)
 
-		uniq.forEach((title) => {
+		columns.forEach((column) => {
 
-			columns.push(this.#getTaskListByColum(r.tasks, title))
+			column.tasks = this.#getTaskListByColum(r.tasks, column)
+
+			this.state.commit(MutationTypes.ADD_ITEM, { fields: column });
+		})
+	}
+
+	#createColumnCollection(items)
+	{
+		const columns = [];
+		const firstInx = 0;
+		const lastInx = items.length-1;
+		let pack = [];
+
+		items.forEach((title, inx) => {
+
+			if (Type.isArrayFilled(pack) === false)
+			{
+				pack = Object.values(StageColorPack)
+			}
+
+			let background = pack.shift();
+
+			columns.push({
+				title: title,
+				background: inx === firstInx
+					? StageColor.FIRST
+					: inx === lastInx
+						? StageColor.LAST
+						: background
+			})
 		})
 
-		columns.forEach((item) => {
-
-			this.state.commit(MutationTypes.ADD_ITEM, {
-				fields: {
-					column: {
-						title: item.title,
-						background: "#00c4fb",
-						tasks: item.tasks
-					}
-				}
-			});
-		})
+		return columns;
 	}
 
 	#getUniqColumns(items)
@@ -79,15 +98,15 @@ export default class RestHandler
 			}
 		})
 
-		return [ ...new Set(result) ];
+		return  [ ...new Set(result) ];
 	}
 
-	#getTaskListByColum(items, title)
+	#getTaskListByColum(items, column)
 	{
 		const result = [];
 
 		items.forEach((item) => {
-			if( title === item?.Category130CustomFieldStatus)
+			if( column.title === item?.Category130CustomFieldStatus)
 			{
 				result.push({
 					id: item.id,

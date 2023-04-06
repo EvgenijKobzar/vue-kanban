@@ -1,11 +1,14 @@
 <template>
-stage
+	<v-chip class="w-100" :style="{background: item.background}" text-color="white" label>
+		<v-icon start icon="mdi-label"/>
+		{{item.title}}
+	</v-chip>
 </template>
 
-<script>
-export default {
-	name: "kanban-stage-item-stage"
-}
+<script setup>
+const props = defineProps([
+	'item',
+]);
 </script>
 
 <style scoped>

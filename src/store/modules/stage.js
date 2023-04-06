@@ -158,6 +158,23 @@ export default class Stage
 			{
 				state.stage = [];
 			},
+			[MutationTypes.UPD_ITEM]: (state, payload) =>
+			{
+				if (Type.isObject(payload.fields.tasks))
+				{
+					payload.fields.tasks.forEach((fields, index)=>{
+						let item = Stage.getTasksItem();
+						item = Object.assign(item, fields);
+
+						payload.fields.tasks[index] = item;
+					})
+				}
+
+				state.stage[payload.index] = Object.assign(
+					state.stage[payload.index],
+					payload.fields
+				);
+			}
 		}
 	}
 
@@ -167,6 +184,14 @@ export default class Stage
 			getStages: state =>
 			{
 				return state[Module.STAGE];
+			},
+			getStageByName: state => (name) =>
+			{
+				return state[Module.STAGE].find(stage => stage.title === name)
+			},
+			getStageIndexByName: state => (name) =>
+			{
+				return state[Module.STAGE].findIndex(stage => stage.title === name)
 			},
 			getErrors: state =>
 			{

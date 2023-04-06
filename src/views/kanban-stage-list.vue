@@ -1,5 +1,5 @@
 <template>
-	<KanbanStageItem v-for="item in items"/>
+	<KanbanStageItem v-for="item in items" :item="item"/>
 </template>
 
 <script setup>

@@ -47,7 +47,20 @@ export default class RestHandler
 	{
 		this.state.commit(MutationTypes.CLEAR);
 
-		const uniq = this.#getUniqColumns(r.tasks)
+		// const uniq = this.#getUniqColumns(r.tasks)
+		const uniq =  [
+			"Новые",
+			"Выполняется (менеджер)",
+			"К перевозке (транспорт)",
+			"Выполнено (транспорт)",
+			"Счета (бухгалтерия)",
+			"Выполнено (бухгалтерия)",
+			"На согласование (менеджер)",
+			"На отправке (бухгалтерия)",
+			"Выполнено (бухгалтерия)",
+			"Сделано",
+		];
+
 		const columns = this.#createColumnCollection(uniq)
 
 		columns.forEach((column) => {

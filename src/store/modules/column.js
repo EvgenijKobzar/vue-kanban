@@ -164,8 +164,7 @@ export default class Column
 	getGetters()
 	{
 		return {
-
-			getColumn: state =>
+			getStages: state =>
 			{
 				return state[Module.COLUMN];
 			},

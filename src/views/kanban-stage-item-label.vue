@@ -4,7 +4,7 @@ stage
 
 <script>
 export default {
-	name: "kanban-column-item-stage"
+	name: "kanban-stage-item-stage"
 }
 </script>
 

@@ -1,5 +1,11 @@
 <template>
-	<v-chip class="w-100" :style="{background: item.background}" text-color="white" label>
+	<v-chip
+					class="my-2" size="default"
+					:color="item.background"
+					text-color="white"
+					variant="elevated"
+					label
+	>
 		<v-icon start icon="mdi-label"/>
 		{{item.title}}
 	</v-chip>

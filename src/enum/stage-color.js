@@ -1,17 +1,17 @@
-export const StageColorPack = Object.freeze({
-	BLUE1: '#00c4fb',
-	BLUE2: '#47d1e2',
-	GREEN1: '#00736a',
-	// RED1: '#ff5752',
-	PURPLE1: '#ff00ff',
-	YELLOW1: '#aba100',
-	DEEP_PURPLE1: '#662793',
-	BLUE3: '#468ee5',
-	YELLOW2: '#ffab00',
-	GREEN2: '#00a74c',
-});
+export const StageColorPack = Object.freeze([
+	'light-blue-darken-2',
+	'blue-lighten-1',
+	'teal-darken-1',
+	'red-lighten-1',
+	'purple-lighten-1',
+	'lime-darken-3',
+	'deep-purple-darken-1',
+	'cyan-darken-1',
+	'orange-darken-1',
+	'green-darken-1',
+]);
 
 export const StageColor = Object.freeze({
-	FIRST: StageColorPack.BLUE1,
-	LAST: StageColorPack.GREEN2
+	FIRST: 'light-blue-darken-2',
+	LAST: 'green-darken-1'
 });

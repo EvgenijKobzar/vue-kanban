@@ -47,10 +47,10 @@
 
 			<v-chip
 					size="x-small"
-					:color="Color.stringToColour('Р161КВ 39')"
+					:color="Color.stringToColour(item.type)"
 					text-color="white"
 			>
-								{{'Р161КВ 39'}}
+								{{item.type}}
 			</v-chip>
 		</div>
 		<div class="d-flex pt-3 justify-start">

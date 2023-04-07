@@ -4,6 +4,7 @@ import Type from "./type.js";
 
 export default class RestHandler
 {
+
 	constructor(options)
 	{
 		this.state = options.state
@@ -42,23 +43,33 @@ export default class RestHandler
 
 	}
 
-	#refresh(r)
+	static getPrefixFilterTaskName()
 	{
-		this.state.commit(MutationTypes.CLEAR);
+		return '[заявка]'
+	}
 
-		// const uniq = this.#getUniqStages(r.tasks)
-		const uniq =  [
+	static getStageList()
+	{
+		return [
 			"Новые",
 			"Выполняется (менеджер)",
 			"К перевозке (транспорт)",
-			// "Выполнено (транспорт)",
+			"Выполнено (транспорт)",
 			"Счета (бухгалтерия)",
 			"Выставлены (бухгалтерия)",
 			"На согласование (менеджер)",
 			"На отправке (бухгалтерия)",
 			"Отправлены (бухгалтерия)",
 			"Сделано",
-		];
+		]
+	}
+
+	#refresh(r)
+	{
+		this.state.commit(MutationTypes.CLEAR);
+
+		// const uniq = this.#getUniqStages(r.tasks)
+		const uniq = RestHandler.getStageList();
 
 		const stages = this.#createStageCollection(uniq)
 
@@ -122,9 +133,9 @@ export default class RestHandler
 			{
 				result.push({
 					id: item.id,
-					title: item.name,
+					title: this.#trimPrefix(item.name),
 					date: item.timeCreated,
-					type: item.parent.name,
+					type: item.parent.сustomFieldTyagach,
 					commentsAttachesCount: item.commentsAttachesCount,
 					commentsCount: item.commentsCount,
 					unreadCommentsCount: item.unreadCommentsCount,
@@ -133,5 +144,10 @@ export default class RestHandler
 		})
 
 		return result;
+	}
+
+	#trimPrefix(value)
+	{
+		return value.split(RestHandler.getPrefixFilterTaskName() + ' ')[1];
 	}
 }

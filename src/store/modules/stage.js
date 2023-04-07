@@ -134,8 +134,13 @@ export default class Stage
 					const cmd = 'task.task.list';
 					const handler = new RestHandler({ state });
 
+					const filter = {};
+					const likeName = '%name';
+					filter[likeName] = RestHandler.getPrefixFilterTaskName();
+
 					(new Rest({
-						cmd
+						cmd,
+						filter
 					}))
 					.then((result) => {
 						handler.execute(cmd, result);

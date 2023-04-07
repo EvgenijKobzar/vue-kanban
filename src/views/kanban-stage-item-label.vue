@@ -15,6 +15,7 @@
 const props = defineProps([
 	'item',
 ]);
+
 </script>
 
 <style scoped>

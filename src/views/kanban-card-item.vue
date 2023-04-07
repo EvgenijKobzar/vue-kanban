@@ -18,11 +18,10 @@
 
 			<v-chip
 					class="ma-2" size="small"
-					color="red"
+					:color="Color.stringToColour(item.type)"
 					text-color="white"
 			>
-				<!--				{{item.type}}-->
-				Р406КВ 39
+								{{item.type}}
 			</v-chip>
 		</div>
 	</div>
@@ -30,6 +29,7 @@
 
 <script setup>
 	import { computed } from 'vue'
+	import Color from "../lib/color.js";
 
 	const props = defineProps([
 		'item',

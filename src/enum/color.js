@@ -1,4 +1,4 @@
-export const StageColorPack = Object.freeze([
+export const Pack = Object.freeze([
 	'light-blue-darken-2',
 	'blue-lighten-1',
 	'teal-darken-1',
@@ -14,4 +14,15 @@ export const StageColorPack = Object.freeze([
 export const StageColor = Object.freeze({
 	FIRST: 'light-blue-darken-2',
 	LAST: 'green-darken-1'
+});
+
+export const Theme = Object.freeze({
+	GREEN: {
+		PRIMARY: 'green-lighten-1',
+		ALERT: 'green-lighten-1',
+	},
+	BLUE: {
+		PRIMARY: 'blue-lighten-1',
+		ALERT: 'red-darken-1',
+	},
 });

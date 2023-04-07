@@ -2,11 +2,11 @@
 	<div class="bg-white shadow rounded px-3 pt-3 pb-3 mr-2 border border-white" >
 		<div class="d-flex justify-between">
 			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">
-				<a :href="getUrlById(item.id)">{{item.title}}</a>
+				<a target="_blank" :href="getUrlById(item.id)">{{item.title}}</a>
 			</p>
 <!--			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{item.title}}</p>-->
 			<v-badge										v-if="item.unreadCommentsCount"
-					color="red-darken-1"
+					:color="ColorTheme.getTheme().ALERT"
 					text-color="white"
 					:content="item.unreadCommentsCount"
 					inline
@@ -26,7 +26,7 @@
 
 			<v-chip											v-if="item.commentsAttachesCount"
 					size="x-small"
-					color="blue-lighten-1"
+					:color="ColorTheme.getTheme().PRIMARY"
 			>
 				<v-icon start icon="mdi-paperclip"></v-icon>
 				+{{item.commentsAttachesCount}}
@@ -37,7 +37,7 @@
 
 			<v-chip
 					size="x-small"
-					color="blue-lighten-1"
+					:color="ColorTheme.getTheme().PRIMARY"
 					variant="elevated"
 			>
 				{{dateFormatted}}
@@ -63,6 +63,7 @@
 <script setup>
 	import { computed } from 'vue'
 	import Color from "../lib/color.js";
+	import ColorTheme from "../lib/color-theme.js";
 
 	const props = defineProps([
 		'item',
@@ -74,7 +75,7 @@
 
 	function getUrlById(id)
 	{
-		return 'task/' + id + '/card/';
+		return 'https://auroralogistic.megaplan.ru' + '/task/' + id + '/card/';
 	}
 </script>
 

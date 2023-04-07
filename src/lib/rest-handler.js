@@ -1,5 +1,5 @@
 import {MutationTypes} from "../enum/mutation-types.js";
-import {StageColor, StageColorPack} from "../enum/stage-color.js";
+import {StageColor, Pack} from "../enum/color.js";
 import Type from "./type.js";
 
 export default class RestHandler
@@ -81,7 +81,7 @@ export default class RestHandler
 
 			if (Type.isArrayFilled(pack) === false)
 			{
-				pack = Object.values(StageColorPack)
+				pack = Object.values(Pack)
 			}
 
 			let background = pack.shift();

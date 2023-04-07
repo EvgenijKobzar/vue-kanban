@@ -5,9 +5,19 @@
 			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>
 		</div>
 		<div class="d-flex mt-3 justify-between text-sm" v-html="item.subject"></div>
-		<div class="d-flex mt-3 justify-between items-center">
+		<div class="d-flex mt-3 justify-between text-sm" >
 			<v-chip
-					class="ma-2"  size="small"
+					class="ma-2" size="x-small"
+					color="blue-lighten-1"
+			>
+				<v-icon start icon="mdi-paperclip"></v-icon>
+				+1
+			</v-chip>
+		</div>
+		<div class="d-flex mt-3 justify-between items-center">
+
+			<v-chip
+					class="ma-2" size="small"
 					color="blue-lighten-1"
 					variant="elevated"
 			>
@@ -18,7 +28,7 @@
 
 			<v-chip
 					class="ma-2" size="small"
-					:color="Color.stringToColour(item.type)"
+					:color="Color.stringToColour('Р161КВ 39')"
 					text-color="white"
 			>
 								{{item.type}}

@@ -1,23 +1,42 @@
 <template>
-	<div class="bg-white shadow rounded px-3 pt-3 pb-5 border border-white" >
+	<div class="bg-white shadow rounded px-3 pt-3 pb-3 mr-2 border border-white" >
 		<div class="d-flex justify-between">
-			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{item.title}}</p>
-			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>
+			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">
+				<a :href="getUrlById(item.id)">{{item.title}}</a>
+			</p>
+<!--			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{item.title}}</p>-->
+			<v-badge										v-if="item.unreadCommentsCount"
+					color="red-darken-1"
+					text-color="white"
+					:content="item.unreadCommentsCount"
+					inline
+			></v-badge>
+			<v-badge										v-else-if="item.commentsCount"
+					color="grey-lighten-1"
+					text-color="white"
+					:content="item.commentsCount"
+					inline
+			></v-badge>
 		</div>
-		<div class="d-flex mt-3 justify-between text-sm" v-html="item.subject"></div>
+
+<!--		<div class="d-flex mt-3 justify-between text-sm">-->
+<!--			<template v-html="item.subject"></template>-->
+<!--		</div>-->
 		<div class="d-flex mt-3 justify-between text-sm" >
-			<v-chip
-					class="ma-2" size="x-small"
+
+			<v-chip											v-if="item.commentsAttachesCount"
+					size="x-small"
 					color="blue-lighten-1"
 			>
 				<v-icon start icon="mdi-paperclip"></v-icon>
-				+1
+				+{{item.commentsAttachesCount}}
 			</v-chip>
+
 		</div>
 		<div class="d-flex mt-3 justify-between items-center">
 
 			<v-chip
-					class="ma-2" size="small"
+					size="x-small"
 					color="blue-lighten-1"
 					variant="elevated"
 			>
@@ -27,12 +46,16 @@
 			<!--      <span class="text-sm text-gray-600">{{item.date}}</span>-->
 
 			<v-chip
-					class="ma-2" size="small"
+					size="x-small"
 					:color="Color.stringToColour('Р161КВ 39')"
 					text-color="white"
 			>
-								{{item.type}}
+								{{'Р161КВ 39'}}
 			</v-chip>
+		</div>
+		<div class="d-flex pt-3 justify-start">
+
+			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>
 		</div>
 	</div>
 </template>
@@ -45,13 +68,14 @@
 		'item',
 	]);
 
-	const dateFormatted = computed(() => props.item.date.split(' ')[0] + ' ' +	props.item.date.split(' ')[1])
+	const dateFormatted = computed(() => props.item.date.split(' ')[0].toString()
+			+ ' '
+			+	props.item.date.split(' ')[1].toString().replace('.', ''))
 
-	function getDate(value)
+	function getUrlById(id)
 	{
-		return
+		return 'task/' + id + '/card/';
 	}
-
 </script>
 
 

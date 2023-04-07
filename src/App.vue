@@ -295,7 +295,7 @@ export default {
 			this.columns.forEach((column, index) => {
 
 				r.data.tasks.forEach((task) => {
-					if(task.Category130CustomFieldStatus === column.title)
+					if(task.customFieldStatus === column.title)
 					{
 						this.columns[index].tasks.push({
 							id: task.id,
@@ -308,7 +308,7 @@ export default {
 					}
 					else
 					{
-						console.log(task.Category130CustomFieldStatus)
+						console.log(task.customFieldStatus)
 					}
 				})
 			})

@@ -38,6 +38,9 @@ export default class Stage
 			date: "",
 			type: "",
 			title: "",
+			commentsAttachesCount: "",
+			commentsCount: "",
+			unreadCommentsCount: "",
 		};
 	}
 
@@ -101,6 +104,21 @@ export default class Stage
 		if (Type.isString(fields.date))
 		{
 			result.date = DateTime.fromISO(fields.date).toLocaleString(DateTime.DATE_MED)
+		}
+
+		if (Type.isNumber(fields.commentsAttachesCount) || Type.isString(fields.commentsAttachesCount))
+		{
+			result.commentsAttachesCount = Text.toNumber(fields.commentsAttachesCount);
+		}
+
+		if (Type.isNumber(fields.commentsCount) || Type.isString(fields.commentsCount))
+		{
+			result.commentsCount = Text.toNumber(fields.commentsCount);
+		}
+
+		if (Type.isNumber(fields.unreadCommentsCount) || Type.isString(fields.unreadCommentsCount))
+		{
+			result.unreadCommentsCount = Text.toNumber(fields.unreadCommentsCount);
 		}
 
 		return result;

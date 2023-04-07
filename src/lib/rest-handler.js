@@ -104,9 +104,9 @@ export default class RestHandler
 		const result = [];
 
 		items.forEach((item) => {
-			if (item?.Category130CustomFieldStatus)
+			if (item?.customFieldStatus)
 			{
-				result.push(item.Category130CustomFieldStatus)
+				result.push(item.customFieldStatus)
 			}
 		})
 
@@ -118,13 +118,16 @@ export default class RestHandler
 		const result = [];
 
 		items.forEach((item) => {
-			if( name === item?.Category130CustomFieldStatus)
+			if( name === item?.customFieldStatus)
 			{
 				result.push({
 					id: item.id,
 					title: item.name,
-					date: item.timeCreated.value,
+					date: item.timeCreated,
 					type: item.parent.name,
+					commentsAttachesCount: item.commentsAttachesCount,
+					commentsCount: item.commentsCount,
+					unreadCommentsCount: item.unreadCommentsCount,
 				})
 			}
 		})

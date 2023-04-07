@@ -2,7 +2,7 @@ export const StageColorPack = Object.freeze({
 	BLUE1: '#00c4fb',
 	BLUE2: '#47d1e2',
 	GREEN1: '#00736a',
-	RED1: '#ff5752',
+	// RED1: '#ff5752',
 	PURPLE1: '#ff00ff',
 	YELLOW1: '#aba100',
 	DEEP_PURPLE1: '#662793',

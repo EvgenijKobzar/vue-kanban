@@ -12,7 +12,7 @@
 	import Plus from "./elements/plus.vue";
 	import KanbanCardList from "./kanban-card-list.vue";
 
-	const props = defineProps([
+	defineProps([
 		'item',
 	]);
 </script>

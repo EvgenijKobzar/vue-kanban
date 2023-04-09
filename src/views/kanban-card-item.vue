@@ -38,7 +38,7 @@
 			<v-chip
 					size="x-small"
 					:color="ColorTheme.getTheme().PRIMARY"
-					variant="elevated"
+					variant="outlined"
 			>
 				{{dateFormatted}}
 

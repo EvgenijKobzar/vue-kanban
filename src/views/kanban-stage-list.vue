@@ -36,19 +36,67 @@
 		</v-snackbar>
 	</div>
 
-	<KanbanStageItem v-for="item in items" :item="item" />
+	<KanbanStageItem v-for="item in items" :item="item" @find-by-tag-stage-item="findByTag"/>
 </template>
 
 <script setup>
 	import KanbanStageItem from "./kanban-stage-item.vue";
 	import {computed, reactive} from 'vue'
 	import { useStore } from 'vuex'
-	import ColorTheme from "../lib/color-theme.js";
+	import Type from "./../lib/type";
 
 	const store = useStore()
-	const items = computed(() => store.getters.getStages)
+	const items = computed(() => {
+
+		const stages = store.getters.getStages;
+		const stageList = [];
+
+		if (Type.isArrayFilled(state.tags))
+		{
+			stages.forEach((stage, index) => {
+
+				const tasksByTag = [];
+				stage.tasks.forEach((task) => {
+
+					let tagFound = false;
+					task.tags.forEach((tag) => {
+						state.tags.forEach((stateTag) => {
+							if( stateTag.code === tag.code && stateTag.value === tag.value)
+							{
+								tagFound = true;
+							}
+						})
+					})
+
+					if (tagFound)
+					{
+						tasksByTag.push(task)
+					}
+				})
+
+				stageList[index] = stage;
+				stageList[index].tasks = tasksByTag;
+
+			})
+
+			return stageList;
+		}
+		else
+		{
+			return store.getters.getStages;
+		}
+
+
+// console.log('taskInxList', taskInxList)
+// console.log('state.tags', state.tags)
+
+		// state.list = store.getters.getStages;
+
+		// return state.list
+	})
 
 	const state = reactive({
+		tags: [],
 		state: {
 			snackbar: false,
 			text: `Hello, I'm a snackbar`,
@@ -65,6 +113,10 @@
 		state.state.chips.push({title:'Р406КВ 39', id: 4,})
 	}
 
+	function findByTag(tag)
+	{
+		state.tags.push(tag)
+	}
 
 	const chips = computed(() => {
 

@@ -38,6 +38,7 @@
 					:size="tag.size"
 					:color="tag.color"
 					:variant="tag.variant"
+					@click="findByTag(tag)"
 			>
 				{{tag.value}}
 			</v-chip>
@@ -57,9 +58,14 @@
 		'item',
 	]);
 
-	const dateFormatted = computed(() => props.item.date.split(' ')[0].toString()
-			+ ' '
-			+	props.item.date.split(' ')[1].toString().replace('.', ''))
+	const emit = defineEmits([
+		'find-by-tag-card-item',
+	]);
+
+	function findByTag(tag)
+	{
+		emit('find-by-tag-card-item', { ...tag });
+	}
 
 	function getUrlById(id)
 	{

@@ -48,9 +48,20 @@
 		}
 	})
 
-	function findByTag(tag)
+	function findByTag(item)
 	{
-		state.tags.push(tag)
+		let tagFound = false;
+		state.tags.forEach((tag) => {
+			if (tag.code === item.code && tag.value === item.value)
+			{
+				tagFound = true;
+			}
+
+		})
+		if (tagFound === false)
+		{
+			state.tags.push(item)
+		}
 	}
 
 	function removeAllTag()
@@ -61,7 +72,7 @@
 	function removeTag(item)
 	{
 		const items = []
-		state.tags.forEach((tag, inx) => {
+		state.tags.forEach((tag) => {
 			if (tag.code === item.code && tag.value === item.value)
 			{
 				// do nothing

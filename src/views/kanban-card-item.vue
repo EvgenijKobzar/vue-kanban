@@ -34,20 +34,12 @@
 
 		</div>
 		<div class="d-flex mt-3 justify-between items-center">
-			<v-chip
-					size="x-small"
-					:color="ColorTheme.getTheme().PRIMARY"
-					variant="outlined"
+			<v-chip 					v-for="tag in item.tags"
+					:size="tag.size"
+					:color="tag.color"
+					:variant="tag.variant"
 			>
-				{{dateFormatted}}
-
-			</v-chip>
-			<v-chip
-					size="x-small"
-					:color="Color.stringToColour(item.type)"
-					text-color="white"
-			>
-								{{item.type}}
+				{{tag.value}}
 			</v-chip>
 		</div>
 		<div class="d-flex pt-3 justify-start">

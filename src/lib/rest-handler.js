@@ -1,6 +1,9 @@
 import {MutationTypes} from "../enum/mutation-types.js";
 import {StageColor, Pack} from "../enum/color.js";
 import Type from "./type.js";
+import ColorTheme from "./color-theme.js";
+import Color from "./color.js";
+import {DateTime} from "luxon";
 
 export default class RestHandler
 {
@@ -134,11 +137,41 @@ export default class RestHandler
 				result.push({
 					id: item.id,
 					title: this.#trimPrefix(item.name),
-					date: item.timeCreated,
-					type: item.parent.сustomFieldTyagach,
 					commentsAttachesCount: item.commentsAttachesCount,
 					commentsCount: item.commentsCount,
 					unreadCommentsCount: item.unreadCommentsCount,
+					tags: this.#internalizeTagList(item.tags),
+				})
+			}
+		})
+
+		return result;
+	}
+
+	#internalizeTagList(items)
+	{
+		const result = [];
+
+		items.forEach((item) => {
+			if (item.code === 'timeCreated')
+			{
+				const date = DateTime.fromISO(item.value).toLocaleString(DateTime.DATE_MED)
+
+				result.push({
+					code: item.code,
+					value: date.split(' ')[0].toString()
+						+ ' '
+						+	date.split(' ')[1].toString().replace('.', ''),
+					variant: 'outlined',
+					color: ColorTheme.getTheme().PRIMARY,
+				})
+			}
+			else
+			{
+				result.push({
+					code: item.code,
+					value: item.value,
+					color: Color.stringToColour(item.value),
 				})
 			}
 		})

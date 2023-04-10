@@ -3,7 +3,6 @@ import Text from "../../lib/text.js";
 import {Module} from "../../enum/module.js";
 import {MutationTypes} from "../../enum/mutation-types.js";
 import Rest from "../../provider/rest.js";
-import {DateTime} from "luxon";
 import RestHandler from "../../lib/rest-handler.js";
 
 
@@ -35,12 +34,22 @@ export default class Stage
 	{
 		return {
 			id: 0,
-			date: "",
-			type: "",
 			title: "",
 			commentsAttachesCount: "",
 			commentsCount: "",
 			unreadCommentsCount: "",
+			tags: [],
+		};
+	}
+
+	static getTagsItem()
+	{
+		return {
+			code: null,
+			value: null,
+			variant: 'elevated',
+			size: 'x-small',
+			color: false,
 		};
 	}
 
@@ -73,7 +82,7 @@ export default class Stage
 		if (Type.isObject(fields.tasks))
 		{
 			result.tasks = [];
-			fields.tasks.forEach((item)=>{
+			fields.tasks.forEach((item) => {
 				let fields = Stage.validateTasks(item);
 				result.tasks.push(fields);
 			})
@@ -96,16 +105,6 @@ export default class Stage
 			result.title = fields.title.toString();
 		}
 
-		if (Type.isString(fields.type))
-		{
-			result.type = fields.type.toString();
-		}
-
-		if (Type.isString(fields.date))
-		{
-			result.date = DateTime.fromISO(fields.date).toLocaleString(DateTime.DATE_MED)
-		}
-
 		if (Type.isNumber(fields.commentsAttachesCount) || Type.isString(fields.commentsAttachesCount))
 		{
 			result.commentsAttachesCount = Text.toNumber(fields.commentsAttachesCount);
@@ -119,6 +118,47 @@ export default class Stage
 		if (Type.isNumber(fields.unreadCommentsCount) || Type.isString(fields.unreadCommentsCount))
 		{
 			result.unreadCommentsCount = Text.toNumber(fields.unreadCommentsCount);
+		}
+
+		if (Type.isObject(fields.tags))
+		{
+			result.tags = [];
+			fields.tags.forEach((item)=>{
+				let fields = Stage.validateTags(item);
+				result.tags.push(fields);
+			})
+		}
+
+		return result;
+	}
+
+	static validateTags(fields)
+	{
+		const result = {};
+
+		if (Type.isString(fields.code))
+		{
+			result.code = fields.code.toString();
+		}
+
+		if (Type.isString(fields.value))
+		{
+			result.value = fields.value.toString();
+		}
+
+		if (Type.isString(fields.variant))
+		{
+			result.variant = fields.variant.toString();
+		}
+
+		if (Type.isString(fields.size))
+		{
+			result.size = fields.size.toString();
+		}
+
+		if (Type.isString(fields.color))
+		{
+			result.color = fields.color.toString();
 		}
 
 		return result;
@@ -177,7 +217,21 @@ export default class Stage
 
 				if (Type.isObject(item.tasks))
 				{
-					item.tasks.forEach((fields, index)=>{
+					item.tasks.forEach((fields, index) => {
+
+						let tags = [];
+						if (Type.isObject(fields.tags))
+						{
+							fields.tags.forEach((tagFields, tagIndex)=>{
+								let tag = Stage.getTagsItem();
+								tag = Object.assign(tag, tagFields);
+
+								 tags[tagIndex] = tag
+							})
+
+							fields.tags = tags;
+						}
+
 						let task = Stage.getTasksItem();
 						task = Object.assign(task, fields);
 

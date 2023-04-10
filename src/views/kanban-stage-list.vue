@@ -38,14 +38,6 @@
 
 	const state = reactive({
 		tags: [],
-		state: {
-			text: `Hello, I'm a snackbar`,
-			chips:[
-					{title:'Р406КВ 39', id: 1,},
-					{title:'М864КТ 39', id: 2,},
-					{title:'6 апр', id: 3,},
-			]
-		}
 	})
 
 	function findByTag(item)

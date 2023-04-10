@@ -10,7 +10,7 @@
 
 <!--		:move="move"-->
 		<template #item="{ element, index }">
-			<KanbanCardItem :item="element" class="mt-3 cursor-move" @find-by-tag-card-item="findByTag"/>
+			<KanbanCardItem :item="element" class="mt-3 cursor-move" v-if="element.hidden === false" @find-by-tag-card-item="findByTag"/>
 		</template>
 	</draggable>
 </template>
@@ -26,6 +26,7 @@
 	const props = defineProps([
 		'stage',
 	]);
+
 	const emit = defineEmits([
 		'find-by-tag-card-list',
 	]);
@@ -54,6 +55,7 @@
 	{
 		emit('find-by-tag-card-list', tag)
 	}
+
 	function onChange(e)
 	{
 		console.log(e)

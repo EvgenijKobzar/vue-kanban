@@ -1,36 +1,21 @@
 <template>
 	<div class="text-center ma-2">
-		<v-btn
-				@click="state.snackbar = true"
-		>
-			Open Snackbar
-		</v-btn>
-		<v-btn
-				v-if="!state.chip1 && !state.chip2 && !state.chip3"
-				color="primary"
-				dark
-				@click="addChips()"
-		>
-<!--			@click="state.chip1 = true, state.chip2 = true, state.chip3 = true, state.snackbar = false"-->
-			Reset Chips
-		</v-btn>
+
 		<v-snackbar
-				v-model="state.snackbar"
+				v-model="snackbar"
 				:content-class="'ma-4 mx-2'"
 				:timeout="1000000"
-
 		>
-			<v-chip class="mx-2" size="small" v-for="chip in state.state.chips" :key="chip.id">
-				{{chip.title}}
+			<v-chip class="mx-2" size="small" v-for="tag in tags" :key="tag.code" closable @click:close="removeTag(tag)">
+				{{tag.value}}
 			</v-chip>
 
 			<template v-slot:actions>
 				<v-btn
 						size="small"
-
-					density="compact"
+						density="compact"
 						icon="mdi-close"
-						
+						@click = "removeAllTag"
 				/>
 			</template>
 		</v-snackbar>
@@ -43,62 +28,17 @@
 	import KanbanStageItem from "./kanban-stage-item.vue";
 	import {computed, reactive} from 'vue'
 	import { useStore } from 'vuex'
-	import Type from "./../lib/type";
+	import Type from "../lib/type.js";
+	import {MutationTypes} from "../enum/mutation-types.js";
 
 	const store = useStore()
-	const items = computed(() => {
-
-		const stages = store.getters.getStages;
-		const stageList = [];
-
-		if (Type.isArrayFilled(state.tags))
-		{
-			stages.forEach((stage, index) => {
-
-				const tasksByTag = [];
-				stage.tasks.forEach((task) => {
-
-					let tagFound = false;
-					task.tags.forEach((tag) => {
-						state.tags.forEach((stateTag) => {
-							if( stateTag.code === tag.code && stateTag.value === tag.value)
-							{
-								tagFound = true;
-							}
-						})
-					})
-
-					if (tagFound)
-					{
-						tasksByTag.push(task)
-					}
-				})
-
-				stageList[index] = stage;
-				stageList[index].tasks = tasksByTag;
-
-			})
-
-			return stageList;
-		}
-		else
-		{
-			return store.getters.getStages;
-		}
-
-
-// console.log('taskInxList', taskInxList)
-// console.log('state.tags', state.tags)
-
-		// state.list = store.getters.getStages;
-
-		// return state.list
-	})
+	const items = computed(() => store.getters.getStages)
+	const snackbar = computed(() => Type.isArrayFilled(state.tags))
+	const tags = computed(() => Type.isArrayFilled(state.tags) ? state.tags : [])
 
 	const state = reactive({
 		tags: [],
 		state: {
-			snackbar: false,
 			text: `Hello, I'm a snackbar`,
 			chips:[
 					{title:'Р406КВ 39', id: 1,},
@@ -108,19 +48,91 @@
 		}
 	})
 
-	function addChips()
-	{
-		state.state.chips.push({title:'Р406КВ 39', id: 4,})
-	}
-
 	function findByTag(tag)
 	{
 		state.tags.push(tag)
 	}
 
-	const chips = computed(() => {
+	function removeAllTag()
+	{
+		state.tags = [];
+		showAllTask();
+	}
+	function removeTag(item)
+	{
+		const items = []
+		state.tags.forEach((tag, inx) => {
+			if (tag.code === item.code && tag.value === item.value)
+			{
+				// do nothing
+			}
+			else
+			{
+				items.push(tag)
+			}
+		})
+		state.tags = items;
 
-		return state.chips
-	})
+		Type.isArrayFilled(items)
+				? showTaskByTags(items)
+				: showAllTask()
 
+	}
+	function showAllTask()
+	{
+		const stages = store.getters.getStages;
+
+		stages.forEach((stage, index) => {
+			const tasks = [];
+			stage.tasks.forEach((task, inx) => {
+				tasks[inx] = {
+					...task,
+					hidden: false,
+				}
+
+			})
+			const params = {
+				...stage,
+				tasks
+			}
+			store.commit(MutationTypes.UPD_ITEM, {
+				fields: params,
+				index
+			});
+		})
+	}
+	function showTaskByTags(items)
+	{
+		const stages = store.getters.getStages;
+
+		stages.forEach((stage, index) => {
+			const tasks = [];
+			stage.tasks.forEach((task, inx) => {
+				tasks[inx] = task;
+				let tagFound = false;
+				items.forEach((item) => {
+					task.tags.forEach((tag) => {
+						if (tag.code === item.code && tag.value === item.value)
+						{
+							tagFound = true;
+						}
+					})
+				})
+
+				if (tagFound)
+				{
+					tasks[inx].hidden = false;
+				}
+
+			})
+			const params = {
+				...stage,
+				tasks
+			}
+			store.commit(MutationTypes.UPD_ITEM, {
+				fields: params,
+				index
+			});
+		})
+	}
 </script>

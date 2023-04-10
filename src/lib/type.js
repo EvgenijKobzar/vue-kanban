@@ -26,4 +26,9 @@ export default class Type
 	{
 		return typeof value === 'string';
 	}
+
+	static isBoolean(value)
+	{
+		return value === true || value === false;
+	}
 }

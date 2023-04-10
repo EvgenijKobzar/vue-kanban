@@ -38,6 +38,7 @@ export default class Stage
 			commentsAttachesCount: "",
 			commentsCount: "",
 			unreadCommentsCount: "",
+			hidden: false,
 			tags: [],
 		};
 	}
@@ -118,6 +119,11 @@ export default class Stage
 		if (Type.isNumber(fields.unreadCommentsCount) || Type.isString(fields.unreadCommentsCount))
 		{
 			result.unreadCommentsCount = Text.toNumber(fields.unreadCommentsCount);
+		}
+
+		if (Type.isBoolean(fields.hidden))
+		{
+			result.hidden = fields.hidden;
 		}
 
 		if (Type.isObject(fields.tags))
@@ -282,6 +288,41 @@ export default class Stage
 			getStageIndexByName: state => (name) =>
 			{
 				return state[Module.STAGE].findIndex(stage => stage.title === name)
+			},
+			getTaskListByTags: state => (tags) =>
+			{
+				const result = [];
+
+				state[Module.STAGE].forEach((stage) => {
+
+					const tasksByTag = [];
+					stage.tasks.forEach((task) => {
+
+						let tagFound = false;
+						task.tags.forEach((tag) => {
+							tags.forEach((stateTag) => {
+								if( stateTag.code === tag.code && stateTag.value === tag.value)
+								{
+									tagFound = true;
+								}
+							})
+						})
+
+						if (tagFound)
+						{
+							tasksByTag.push(task)
+						}
+					})
+
+					result.push({
+						sort: stage.sort,
+						title: stage.title,
+						background: stage.background,
+						tasks: tasksByTag,
+					})
+				})
+				console.log('result', result)
+				return result
 			},
 			getErrors: state =>
 			{

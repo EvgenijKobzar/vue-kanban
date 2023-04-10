@@ -50,9 +50,11 @@
 </template>
 
 <script setup>
-	import { computed } from 'vue'
-	import Color from "../lib/color.js";
 	import ColorTheme from "../lib/color-theme.js";
+	import {MutationTypes} from "../enum/mutation-types.js";
+	import {useStore} from "vuex";
+
+	const store = useStore()
 
 	const props = defineProps([
 		'item',
@@ -62,9 +64,40 @@
 		'find-by-tag-card-item',
 	]);
 
-	function findByTag(tag)
+	function findByTag(item)
 	{
-		emit('find-by-tag-card-item', { ...tag });
+		emit('find-by-tag-card-item', { ...item });
+
+		const stages = store.getters.getStages;
+
+		stages.forEach((stage, index) => {
+			const tasks = [];
+			stage.tasks.forEach((task, inx) => {
+				tasks[inx] = task;
+				let tagFound = false;
+				task.tags.forEach((tag) => {
+					if (tag.code === item.code && tag.value === item.value)
+					{
+						tagFound = true
+					}
+				})
+
+				if (tagFound === false)
+				{
+					tasks[inx].hidden = true;
+				}
+
+			})
+			const params = {
+				...stage,
+				tasks
+			}
+
+			store.commit(MutationTypes.UPD_ITEM, {
+				fields: params,
+				index
+			});
+		})
 	}
 
 	function getUrlById(id)

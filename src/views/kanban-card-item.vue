@@ -34,14 +34,16 @@
 
 		</div>
 		<div class="d-flex mt-3 justify-between items-center">
-			<v-chip 					v-for="tag in item.tags"
-					:size="tag.size"
-					:color="tag.color"
-					:variant="tag.variant"
-					@click="findByTag(tag)"
-			>
-				{{tag.value}}
-			</v-chip>
+			<template v-for="tag in item.tags">
+				<v-chip v-if="tag.value"
+						:size="tag.size"
+						:color="tag.color"
+						:variant="tag.variant"
+						@click="findByTag(tag)"
+				>
+					{{tag.value}}
+				</v-chip>
+			</template>
 		</div>
 		<div class="d-flex pt-3 justify-start">
 			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>

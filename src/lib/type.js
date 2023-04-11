@@ -31,4 +31,10 @@ export default class Type
 	{
 		return value === true || value === false;
 	}
+
+	static isStringFilled(value)
+	{
+		return this.isString(value) && value !== '';
+	}
+
 }

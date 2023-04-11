@@ -170,8 +170,8 @@ export default class RestHandler
 			{
 				result.push({
 					code: item.code,
-					value: item.value,
-					color: Color.stringToColour(item.value),
+					value: item?.value,
+					color: Color.stringToColour(item?.value),
 				})
 			}
 		})

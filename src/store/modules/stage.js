@@ -35,9 +35,10 @@ export default class Stage
 		return {
 			id: 0,
 			title: "",
-			commentsAttachesCount: "",
-			commentsCount: "",
-			unreadCommentsCount: "",
+			relationLinksCount: 0,
+			commentsAttachesCount: 0,
+			commentsCount: 0,
+			unreadCommentsCount: 0,
 			hidden: false,
 			tags: [],
 			responsible: Stage.getResponsibleItem(),
@@ -115,6 +116,11 @@ export default class Stage
 		if (Type.isString(fields.title))
 		{
 			result.title = fields.title.toString();
+		}
+
+		if (Type.isNumber(fields.relationLinksCount) || Type.isString(fields.relationLinksCount))
+		{
+			result.relationLinksCount = Text.toNumber(fields.relationLinksCount);
 		}
 
 		if (Type.isNumber(fields.commentsAttachesCount) || Type.isString(fields.commentsAttachesCount))

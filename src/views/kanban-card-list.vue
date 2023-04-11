@@ -10,7 +10,7 @@
 
 <!--		:move="move"-->
 		<template #item="{ element, index }">
-			<KanbanCardItem :item="element" class="mt-3 cursor-move" v-if="element.hidden === false" @find-by-tag-card-item="findByTag"/>
+			<KanbanCardItem :item="element" v-if="element.hidden === false" @find-by-tag-card-item="findByTag"/>
 		</template>
 	</draggable>
 </template>

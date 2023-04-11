@@ -8,7 +8,13 @@
 				<v-icon start icon="mdi-paperclip"></v-icon>
 				+{{item.commentsAttachesCount}}
 			</v-chip>
-
+			<v-chip v-if="item.relationLinksCount"
+							size="x-small"
+							:color="ColorTheme.getTheme().PRIMARY"
+			>
+				<v-icon start icon="mdi-link"></v-icon>
+				+{{item.relationLinksCount}}
+			</v-chip>
 		</div>
 </template>
 

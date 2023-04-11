@@ -137,6 +137,7 @@ export default class RestHandler
 				result.push({
 					id: item.id,
 					title: this.#trimPrefix(item.name),
+					relationLinksCount: item.relationLinksCount,
 					commentsAttachesCount: item.commentsAttachesCount,
 					commentsCount: item.commentsCount,
 					unreadCommentsCount: item.unreadCommentsCount,

@@ -1,5 +1,4 @@
 <template>
-	<div class="text-center ma-2">
 
 		<v-snackbar
 				v-model="snackbar"
@@ -19,7 +18,6 @@
 				/>
 			</template>
 		</v-snackbar>
-	</div>
 
 	<KanbanStageItem v-for="item in items" :item="item" @find-by-tag-stage-item="findByTag"/>
 </template>

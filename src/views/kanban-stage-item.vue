@@ -1,5 +1,5 @@
 <template>
-	<div class="ma-1 rounded-lg column-width app-kanban-column-left">
+	<div class="rounded-lg column-width app-kanban-column-left">
 		<KanbanStageItemLabel :item="item"/>
 		<Plus/>
 		<KanbanCardList :stage="item" @find-by-tag-card-list="findByTag"/>

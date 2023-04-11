@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white shadow rounded px-3 pt-3 pb-3 mr-2 border border-white" >
+	<div class="bg-white shadow rounded px-3 pt-3 pb-3 mr-1 border border-white mt-2 cursor-move" >
 
 		<KanbanCardItemTitle :item="item">
 			<template v-slot:counter><KanbanCardItemComments :item="item"/></template>

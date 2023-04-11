@@ -8,6 +8,7 @@
 							:color="isHovering ? ColorTheme.getTheme().PRIMARY : undefined"
 							variant="flat" density="compact"
 							icon="mdi-plus"
+							@click="create"
 					></v-btn>
 				</template>
 			</v-hover>
@@ -16,4 +17,9 @@
 </template>
 <script setup>
 import ColorTheme from "../../lib/color-theme.js";
+
+function create()
+{
+	window.open('https://auroralogistic.megaplan.ru/task/filter/all', '_blank');
+}
 </script>

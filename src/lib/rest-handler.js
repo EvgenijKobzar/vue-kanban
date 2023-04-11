@@ -141,6 +141,7 @@ export default class RestHandler
 					commentsCount: item.commentsCount,
 					unreadCommentsCount: item.unreadCommentsCount,
 					tags: this.#internalizeTagList(item.tags),
+					responsible: this.#internalizeResponsible(item.responsible),
 				})
 			}
 		})
@@ -179,6 +180,15 @@ export default class RestHandler
 		return result;
 	}
 
+	#internalizeResponsible(item)
+	{
+		return {
+			name: item.name,
+			short: item.name.split(' ')[0][0] + item.name.split(' ')[1][0].toUpperCase(),
+			avatar: item.avatar.replace('{width}', 100).replace('{height}', 100),
+			color: Color.stringToColour(item.name),
+		}
+	}
 	#trimPrefix(value)
 	{
 		return value.split(RestHandler.getPrefixFilterTaskName() + ' ')[1];

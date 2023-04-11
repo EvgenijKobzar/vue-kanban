@@ -1,64 +1,24 @@
 <template>
 	<div class="bg-white shadow rounded px-3 pt-3 pb-3 mr-2 border border-white" >
-		<div class="d-flex justify-between">
-			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">
-				<a target="_blank" :href="getUrlById(item.id)">{{item.title}}</a>
-			</p>
-<!--			<p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{item.title}}</p>-->
-			<v-badge										v-if="item.unreadCommentsCount"
-					:color="ColorTheme.getTheme().ALERT"
-					text-color="white"
-					:content="item.unreadCommentsCount"
-					inline
-			></v-badge>
-			<v-badge										v-else-if="item.commentsCount"
-					color="grey-lighten-1"
-					text-color="white"
-					:content="item.commentsCount"
-					inline
-			></v-badge>
-		</div>
 
-<!--		<div class="d-flex mt-3 justify-between text-sm">-->
-<!--			<template v-html="item.subject"></template>-->
-<!--		</div>-->
-		<div class="d-flex mt-3 justify-between text-sm" >
+		<KanbanCardItemTitle :item="item">
+			<template v-slot:counter><KanbanCardItemComments :item="item"/></template>
+		</KanbanCardItemTitle>
 
-			<v-chip											v-if="item.commentsAttachesCount"
-					size="x-small"
-					:color="ColorTheme.getTheme().PRIMARY"
-			>
-				<v-icon start icon="mdi-paperclip"></v-icon>
-				+{{item.commentsAttachesCount}}
-			</v-chip>
-
-		</div>
-		<div class="d-flex mt-3 justify-between items-center">
-			<template v-for="tag in item.tags">
-				<v-chip v-if="tag.value"
-						:size="tag.size"
-						:color="tag.color"
-						:variant="tag.variant"
-						@click="findByTag(tag)"
-				>
-					{{tag.value}}
-				</v-chip>
-			</template>
-		</div>
-		<div class="d-flex pt-3 justify-start">
-			<v-avatar size="24" image="//pc31.megaplan.ru/hosts/auroralogistic.megaplan.ru/100x100/attach/SdfFileM_File/File/25/afe47c503483e11bae50305bddaa448d.png"/>
-		</div>
+		<KanbanCardItemAttaches :item="item"/>
+		<KanbanCardItemTagList 	:items="item.tags" @find-by-tag-card-item-tag-list="findByTag"/>
+		<KanbanCardItemAvatar 	:item="item.responsible"/>
 	</div>
 </template>
 
 <script setup>
-	import ColorTheme from "../lib/color-theme.js";
-	import {MutationTypes} from "../enum/mutation-types.js";
-	import {useStore} from "vuex";
+	import KanbanCardItemAvatar from "./kanban-card-item-avatar.vue";
+	import KanbanCardItemAttaches from "./kanban-card-item-attaches.vue";
+	import KanbanCardItemComments from "./kanban-card-item-comments.vue";
+	import KanbanCardItemTagList from "./kanban-card-item-tag-list.vue";
+	import KanbanCardItemTitle from "./kanban-card-item-title.vue";
 
-	const store = useStore()
-
-	const props = defineProps([
+	defineProps([
 		'item',
 	]);
 
@@ -68,43 +28,7 @@
 
 	function findByTag(item)
 	{
-		emit('find-by-tag-card-item', { ...item });
-
-		const stages = store.getters.getStages;
-
-		stages.forEach((stage, index) => {
-			const tasks = [];
-			stage.tasks.forEach((task, inx) => {
-				tasks[inx] = task;
-				let tagFound = false;
-				task.tags.forEach((tag) => {
-					if (tag.code === item.code && tag.value === item.value)
-					{
-						tagFound = true
-					}
-				})
-
-				if (tagFound === false)
-				{
-					tasks[inx].hidden = true;
-				}
-
-			})
-			const params = {
-				...stage,
-				tasks
-			}
-
-			store.commit(MutationTypes.UPD_ITEM, {
-				fields: params,
-				index
-			});
-		})
-	}
-
-	function getUrlById(id)
-	{
-		return 'https://auroralogistic.megaplan.ru' + '/task/' + id + '/card/';
+		emit('find-by-tag-card-item', item);
 	}
 </script>
 

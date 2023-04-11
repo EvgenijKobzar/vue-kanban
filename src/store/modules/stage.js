@@ -40,6 +40,7 @@ export default class Stage
 			unreadCommentsCount: "",
 			hidden: false,
 			tags: [],
+			responsible: Stage.getResponsibleItem(),
 		};
 	}
 
@@ -50,6 +51,16 @@ export default class Stage
 			value: null,
 			variant: 'elevated',
 			size: 'x-small',
+			color: false,
+		};
+	}
+
+	static getResponsibleItem()
+	{
+		return {
+			name: null,
+			short: null,
+			avatar: null,
 			color: false,
 		};
 	}
@@ -135,6 +146,11 @@ export default class Stage
 			})
 		}
 
+		if (Type.isObject(fields.responsible))
+		{
+			result.responsible = Stage.validateResponsible(fields.responsible);
+		}
+
 		return result;
 	}
 
@@ -160,6 +176,33 @@ export default class Stage
 		if (Type.isString(fields.size))
 		{
 			result.size = fields.size.toString();
+		}
+
+		if (Type.isString(fields.color))
+		{
+			result.color = fields.color.toString();
+		}
+
+		return result;
+	}
+
+	static validateResponsible(fields)
+	{
+		const result = {};
+
+		if (Type.isString(fields.name))
+		{
+			result.name = fields.name.toString();
+		}
+
+		if (Type.isString(fields.short))
+		{
+			result.short = fields.short.toString();
+		}
+
+		if (Type.isString(fields.avatar))
+		{
+			result.avatar = fields.avatar.toString();
 		}
 
 		if (Type.isString(fields.color))
@@ -288,41 +331,6 @@ export default class Stage
 			getStageIndexByName: state => (name) =>
 			{
 				return state[Module.STAGE].findIndex(stage => stage.title === name)
-			},
-			getTaskListByTags: state => (tags) =>
-			{
-				const result = [];
-
-				state[Module.STAGE].forEach((stage) => {
-
-					const tasksByTag = [];
-					stage.tasks.forEach((task) => {
-
-						let tagFound = false;
-						task.tags.forEach((tag) => {
-							tags.forEach((stateTag) => {
-								if( stateTag.code === tag.code && stateTag.value === tag.value)
-								{
-									tagFound = true;
-								}
-							})
-						})
-
-						if (tagFound)
-						{
-							tasksByTag.push(task)
-						}
-					})
-
-					result.push({
-						sort: stage.sort,
-						title: stage.title,
-						background: stage.background,
-						tasks: tasksByTag,
-					})
-				})
-				console.log('result', result)
-				return result
 			},
 			getErrors: state =>
 			{

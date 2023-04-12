@@ -56,23 +56,7 @@ export default class RestHandler
 		return [
 			{
 				title: "Новые",
-				dialog: {
-					title: 'Выставление счетов',
-					fields: [
-						{
-							name: 'Клиент (ссылка в 4Logistic)',
-							type: 'text'
-						},
-						{
-							name: 'итоговая сумма для выставления счета',
-							type: 'text'
-						},
-						{
-							name: 'дополнительная информация для выставления счета',
-							type: 'text'
-						},
-					]
-				},
+				dialog: {},
 			},
 			{
 				title: "Выполняется (менеджер)",
@@ -80,7 +64,18 @@ export default class RestHandler
 			},
 			{
 				title: "К перевозке (транспорт)",
-				dialog: {},
+				dialog: {
+					subheaders: [{
+						title: 'Информация для водителя',
+						fields: [
+							{name: 'Дата', type: 'date',},
+							{name: 'Место', type: 'text',},
+							{name: 'Контакт на загрузке', type: 'text',},
+							{name: 'Контакт на выгрузке', type: 'text',},
+							{name: 'Заявка (ссылка в 4Logistic)', type: 'text',},
+						]
+					}],
+				}
 			},
 			{
 				title: "Выполнено (транспорт)",
@@ -88,11 +83,27 @@ export default class RestHandler
 			},
 			{
 				title: "Счета (бухгалтерия)",
-				dialog: {},
+				dialog: {
+					subheaders: [{
+						title: 'Информация для выставления счетов бухгалтерией и дальнейшего их согласования',
+						fields: [
+							{name: 'Клиент (ссылка в 4Logistic или Мегаплан)', type: 'text'},
+							{name: 'итоговая сумма для выставления счета', type: 'text'},
+							{name: 'дополнительная информация для выставления счета', type: 'text'},
+						]
+					}],
+				}
 			},
 			{
 				title: "Выставлены (бухгалтерия)",
-				dialog: {},
+				dialog: {
+					subheaders: [{
+						title: 'Выставление счетов для согласования',
+						fields: [
+							{name: 'Акт и счет прикреплены к задаче', type: 'text'},
+						]
+					}]
+				},
 			},
 			{
 				title: "На согласование (менеджер)",
@@ -104,7 +115,22 @@ export default class RestHandler
 			},
 			{
 				title: "Отправлены (бухгалтерия)",
-				dialog: {},
+				dialog: {
+					subheaders: [{
+						title: "Отправка документов",
+						fields: [
+							{name: 'курьерская служба', type: 'text'},
+							{name: 'трек', type: 'text'},
+							{name: 'отвозим сами', type: 'text'},
+						],
+					},
+					{
+						title: "Архивация",
+						fields: [
+							{name: 'номер в архиве', type: 'text'},
+						],
+					}],
+				},
 			},
 			{
 				title: "Сделано",

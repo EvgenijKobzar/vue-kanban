@@ -70,12 +70,19 @@ export default class Stage
 	static getDialogItem()
 	{
 		return {
+			subheaders: []
+		}
+	}
+
+	static getDialogSubHeaderItem()
+	{
+		return {
 			title: null,
 			fields: []
 		}
 	}
 
-	static getDialogFieldItem()
+	static getDialogSubHeaderFieldItem()
 	{
 		return {
 			name: null,
@@ -280,6 +287,22 @@ export default class Stage
 	{
 		const result = {};
 
+		if (Type.isObject(fields.subheaders))
+		{
+			result.subheaders = [];
+			fields.subheaders.forEach((item)=>{
+				let fields = Stage.validateDialogSubHeader(item);
+				result.subheaders.push(fields);
+			})
+		}
+
+		return result;
+	}
+
+	static validateDialogSubHeader(fields)
+	{
+		const result = {};
+
 		if (Type.isString(fields.title))
 		{
 			result.title = fields.title.toString();
@@ -372,17 +395,30 @@ export default class Stage
 					})
 				}
 
-				if (Type.isObject(item.dialog.fields))
+				if (Type.isObject(item.dialog.subheaders))
 				{
-					let dialogFields = [];
-					item.dialog.fields.forEach((dialogField, dialogIndex) => {
-						let field = Stage.getDialogFieldItem();
-						field = Object.assign(field, dialogField);
+					let dialogSubHeaders = [];
+					item.dialog.subheaders.forEach((subheader, shIndex) => {
+						let field = Stage.getDialogSubHeaderItem();
+						field = Object.assign(field, subheader);
 
-						dialogFields[dialogIndex] = field
+						dialogSubHeaders[shIndex] = field
 					})
 
-					item.dialog.fields = dialogFields;
+					item.dialog.subheaders = dialogSubHeaders;
+
+					if (Type.isObject(item.dialog.subheaders.fields))
+					{
+						let subheaderFields = [];
+						item.dialog.fields.forEach((subheaderFields, fIndex) => {
+							let field = Stage.getDialogSubHeaderFieldItem();
+							field = Object.assign(field, subheaderFields);
+
+							subheaderFields[fIndex] = field
+						})
+
+						item.dialog.subheaders.fields = subheaderFields;
+					}
 				}
 
 				state[Module.STAGE].push(item);

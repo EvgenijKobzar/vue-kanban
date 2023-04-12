@@ -13,6 +13,10 @@
 			<KanbanCardItem :item="element" v-if="element.hidden === false" @find-by-tag-card-item="findByTag"/>
 		</template>
 	</draggable>
+	<KanbanStageDialog v-if="stage.dialog.subheaders"
+			:subheaders="stage.dialog.subheaders"
+			:show="state.showDialog"
+			@close-stage-dialog="state.showDialog = false"></KanbanStageDialog>
 </template>
 
 <script setup>
@@ -20,8 +24,14 @@
 	import KanbanCardItem from "./kanban-card-item.vue";
 	import {MutationTypes} from "../enum/mutation-types.js";
 
-	import { computed } from 'vue'
+	import {computed, reactive} from 'vue'
 	import { useStore } from 'vuex'
+	import KanbanStageDialog from "./kanban-stage-dialog.vue";
+
+	const state = reactive({
+		showDialog: false,
+	})
+
 
 	const props = defineProps([
 		'stage',
@@ -92,6 +102,10 @@
 
 		if (item?.id)
 		{
+			originalEvent?.added
+					? state.showDialog = true
+					: null
+
 			store.dispatch('updateTask', {
 				id: item.id,
 				fields: {
@@ -102,6 +116,8 @@
 
 		if (originalEvent?.removed)
 		{
+			state.showDialog = false;
+
 			console.log('removed', originalEvent?.removed.element.id)
 		}
 		else if(originalEvent?.added)

@@ -4,6 +4,7 @@ import Type from "./type.js";
 import ColorTheme from "./color-theme.js";
 import Color from "./color.js";
 import {DateTime} from "luxon";
+import {DialogFieldTypes} from "../enum/dialog-field-types.js";
 
 export default class RestHandler
 {
@@ -68,11 +69,11 @@ export default class RestHandler
 					subheaders: [{
 						title: 'Информация для водителя',
 						fields: [
-							{name: 'Дата', type: 'date',},
-							{name: 'Место', type: 'text',},
-							{name: 'Контакт на загрузке', type: 'text',},
-							{name: 'Контакт на выгрузке', type: 'text',},
-							{name: 'Заявка (ссылка в 4Logistic)', type: 'text',},
+							{name: 'Дата', type: DialogFieldTypes.TEXT,},
+							{name: 'Место', type: DialogFieldTypes.TEXT,},
+							{name: 'Контакт на загрузке', type: DialogFieldTypes.TEXT,},
+							{name: 'Контакт на выгрузке', type: DialogFieldTypes.TEXT,},
+							{name: 'Заявка (ссылка в 4Logistic)', type: DialogFieldTypes.TEXT,},
 						]
 					}],
 				}
@@ -87,9 +88,9 @@ export default class RestHandler
 					subheaders: [{
 						title: 'Информация для выставления счетов бухгалтерией и дальнейшего их согласования',
 						fields: [
-							{name: 'Клиент (ссылка в 4Logistic или Мегаплан)', type: 'text'},
-							{name: 'итоговая сумма для выставления счета', type: 'text'},
-							{name: 'дополнительная информация для выставления счета', type: 'text'},
+							{name: 'Клиент (ссылка в 4Logistic или Мегаплан)', type: DialogFieldTypes.TEXT},
+							{name: 'Итоговая сумма для выставления счета', type: DialogFieldTypes.TEXT},
+							{name: 'Дополнительная информация для выставления счета', type: DialogFieldTypes.TEXT},
 						]
 					}],
 				}
@@ -100,7 +101,7 @@ export default class RestHandler
 					subheaders: [{
 						title: 'Выставление счетов для согласования',
 						fields: [
-							{name: 'Акт и счет прикреплены к задаче', type: 'text'},
+							{name: 'Акт и счет прикреплены к задаче', type: DialogFieldTypes.CHECKBOX},
 						]
 					}]
 				},
@@ -121,7 +122,7 @@ export default class RestHandler
 						fields: [
 							{name: 'курьерская служба', type: 'text'},
 							{name: 'трек', type: 'text'},
-							{name: 'отвозим сами', type: 'text'},
+							{name: 'отвозим сами', type: 'checkbox'},
 						],
 					},
 					{

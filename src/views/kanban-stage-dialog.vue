@@ -1,55 +1,56 @@
 <template>
 	<v-row justify="center">
 		<v-dialog
+				persistent
 				v-model="state.dialog"
-				fullscreen
-				:scrim="false"
-				transition="dialog-bottom-transition"
-		>
-			<template v-slot:activator="{ props }">
-				<v-btn
-						color="primary"
-						dark
-						v-bind="props"
-				>
-					Open Dialog
-				</v-btn>
-			</template>
+				width="1024"
+		>{{state.dialog}}
 			<v-card>
-				<v-toolbar>
-					<v-btn
-							icon
-							dark
-							@click="state.dialog = false"
-					>
-						<v-icon>mdi-close</v-icon>
-					</v-btn>
-<!--					<v-toolbar-title>Settings</v-toolbar-title>-->
-					<v-spacer></v-spacer>
-					<v-toolbar-items>
-						<v-btn
-								variant="text"
-								@click="state.dialog = false"
-								:color="ColorTheme.getTheme().PRIMARY"
-						>
-							Сохранить
-						</v-btn>
-					</v-toolbar-items>
-				</v-toolbar>
-<template v-for="subheader in subheaders">
-				<v-list
-						lines="two"
-						subheader
-				>
-					<v-list-subheader>{{subheader.title}}</v-list-subheader>
+				<template v-for="subheader in subheaders">
+						<v-card-title>
+							<span >{{subheader.title}}</span>
+						</v-card-title>
+						<v-card-text>
+							<v-container>
+								<v-row>
+									<v-col
+											cols="12"
+											sm="6"
+											md="6"
+											v-for="field in subheader.fields"
+									>
+										<v-text-field						v-if="field.type === DialogFieldTypes.TEXT"
+												:label="field.name"
 
-					<v-list-item v-for="field in subheader.fields">
-						<template v-slot:prepend>
-							<v-checkbox :label="field.name" @click="check(field.code)"></v-checkbox>
-						</template>
-					</v-list-item>
-				</v-list>
-</template>
+										></v-text-field>
+										<v-checkbox							v-else-if="field.type === DialogFieldTypes.CHECKBOX"
+												:label="field.name"
+										></v-checkbox>
+									</v-col>
+								</v-row>
+							</v-container>
+						</v-card-text>
+				</template>
+				<v-card-text>
+					<small>*обязательные поля</small>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn
+							color="pink-darken-1"
+							variant="text"
+							@click="closeDialog"
+					>
+						Отменить
+					</v-btn>
+					<v-btn
+							color="green-darken-1"
+							variant="text"
+							@click="closeDialog"
+					>
+						Сохранить
+					</v-btn>
+				</v-card-actions>
 			</v-card>
 		</v-dialog>
 	</v-row>
@@ -57,24 +58,38 @@
 
 <script setup>
 
-import {reactive} from "vue";
-import ColorTheme from "../lib/color-theme.js";
+import {computed, reactive, watch} from "vue";
+import {DialogFieldTypes} from "../enum/dialog-field-types.js";
+
 
 const props = defineProps([
 	'subheaders',
+	'show'
 ]);
+
+const emit = defineEmits([
+	'close-stage-dialog',
+]);
+
+const detailPageUrl = computed(() => props.show)
+
+watch(detailPageUrl, (newX) => {
+	state.dialog = newX
+})
+
+function log(props)
+{
+	console.log('@@@', props)
+}
+
+function closeDialog()
+{
+	emit('close-stage-dialog');
+}
 
 const state = reactive({
 	dialog: false,
-	notifications: false,
-	sound: true,
-	widgets: false,
 })
-
-function check(code)
-{
-
-}
 </script>
 
 <style>

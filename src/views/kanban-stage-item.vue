@@ -3,7 +3,6 @@
 		<KanbanStageItemLabel :item="item"/>
 		<Plus/>
 		<KanbanCardList :stage="item" @find-by-tag-card-list="findByTag"/>
-		<KanbanStageDialog :subheaders="item.dialog.subheaders"/>
 	</div>
 
 </template>
@@ -12,7 +11,6 @@
 	import KanbanStageItemLabel from "./kanban-stage-item-label.vue";
 	import Plus from "./elements/plus.vue";
 	import KanbanCardList from "./kanban-card-list.vue";
-	import KanbanStageDialog from "./kanban-stage-dialog.vue";
 
 	defineProps([
 		'item',

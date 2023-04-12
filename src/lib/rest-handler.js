@@ -54,16 +54,62 @@ export default class RestHandler
 	static getStageList()
 	{
 		return [
-			"Новые",
-			"Выполняется (менеджер)",
-			"К перевозке (транспорт)",
-			"Выполнено (транспорт)",
-			"Счета (бухгалтерия)",
-			"Выставлены (бухгалтерия)",
-			"На согласование (менеджер)",
-			"На отправке (бухгалтерия)",
-			"Отправлены (бухгалтерия)",
-			"Сделано",
+			{
+				title: "Новые",
+				dialog: {
+					title: 'Выставление счетов',
+					fields: [
+						{
+							name: 'Клиент (ссылка в 4Logistic)',
+							type: 'text'
+						},
+						{
+							name: 'итоговая сумма для выставления счета',
+							type: 'text'
+						},
+						{
+							name: 'дополнительная информация для выставления счета',
+							type: 'text'
+						},
+					]
+				},
+			},
+			{
+				title: "Выполняется (менеджер)",
+				dialog: {},
+			},
+			{
+				title: "К перевозке (транспорт)",
+				dialog: {},
+			},
+			{
+				title: "Выполнено (транспорт)",
+				dialog: {},
+			},
+			{
+				title: "Счета (бухгалтерия)",
+				dialog: {},
+			},
+			{
+				title: "Выставлены (бухгалтерия)",
+				dialog: {},
+			},
+			{
+				title: "На согласование (менеджер)",
+				dialog: {},
+			},
+			{
+				title: "На отправке (бухгалтерия)",
+				dialog: {},
+			},
+			{
+				title: "Отправлены (бухгалтерия)",
+				dialog: {},
+			},
+			{
+				title: "Сделано",
+				dialog: {},
+			},
 		]
 	}
 
@@ -91,7 +137,7 @@ export default class RestHandler
 		const lastInx = items.length-1;
 		let pack = [];
 
-		items.forEach((title, inx) => {
+		items.forEach((item, inx) => {
 
 			if (Type.isArrayFilled(pack) === false)
 			{
@@ -101,7 +147,8 @@ export default class RestHandler
 			let background = pack.shift();
 
 			stages.push({
-				title: title,
+				title: item.title,
+				dialog: item.dialog,
 				background: inx === firstInx
 					? StageColor.FIRST
 					: inx === lastInx

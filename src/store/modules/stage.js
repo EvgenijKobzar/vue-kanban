@@ -26,6 +26,7 @@ export default class Stage
 			sort: 0,
 			title: null,
 			background: null,
+			dialog: Stage.getDialogItem(),
 			tasks: [],
 		};
 	}
@@ -66,6 +67,25 @@ export default class Stage
 		};
 	}
 
+	static getDialogItem()
+	{
+		return {
+			title: null,
+			fields: []
+		}
+	}
+
+	static getDialogFieldItem()
+	{
+		return {
+			name: null,
+			code: null,
+			value: null,
+			type: null,
+			required: false,
+		}
+	}
+
 	static validate(fields)
 	{
 		const result = {};
@@ -99,6 +119,11 @@ export default class Stage
 				let fields = Stage.validateTasks(item);
 				result.tasks.push(fields);
 			})
+		}
+
+		if (Type.isObject(fields.dialog))
+		{
+			result.dialog = Stage.validateDialog(fields.dialog);
 		}
 
 		return result;
@@ -147,7 +172,7 @@ export default class Stage
 		{
 			result.tags = [];
 			fields.tags.forEach((item)=>{
-				let fields = Stage.validateTags(item);
+				let fields = Stage.validateTag(item);
 				result.tags.push(fields);
 			})
 		}
@@ -160,7 +185,7 @@ export default class Stage
 		return result;
 	}
 
-	static validateTags(fields)
+	static validateTag(fields)
 	{
 		const result = {};
 
@@ -192,6 +217,38 @@ export default class Stage
 		return result;
 	}
 
+	static validateDialogField(fields)
+	{
+		const result = {};
+
+		if (Type.isString(fields.name))
+		{
+			result.name = fields.name.toString();
+		}
+
+		if (Type.isString(fields.code))
+		{
+			result.code = fields.code.toString();
+		}
+
+		if (Type.isString(fields.value))
+		{
+			result.value = fields.value.toString();
+		}
+
+		if (Type.isBoolean(fields.required))
+		{
+			result.required = fields.required;
+		}
+
+		if (Type.isString(fields.type))
+		{
+			result.type = fields.type.toString();
+		}
+
+		return result;
+	}
+
 	static validateResponsible(fields)
 	{
 		const result = {};
@@ -214,6 +271,27 @@ export default class Stage
 		if (Type.isString(fields.color))
 		{
 			result.color = fields.color.toString();
+		}
+
+		return result;
+	}
+
+	static validateDialog(fields)
+	{
+		const result = {};
+
+		if (Type.isString(fields.title))
+		{
+			result.title = fields.title.toString();
+		}
+
+		if (Type.isObject(fields.fields))
+		{
+			result.fields = [];
+			fields.fields.forEach((item)=>{
+				let fields = Stage.validateDialogField(item);
+				result.fields.push(fields);
+			})
 		}
 
 		return result;
@@ -281,7 +359,7 @@ export default class Stage
 								let tag = Stage.getTagsItem();
 								tag = Object.assign(tag, tagFields);
 
-								 tags[tagIndex] = tag
+								tags[tagIndex] = tag
 							})
 
 							fields.tags = tags;
@@ -292,6 +370,19 @@ export default class Stage
 
 						item.tasks[index] = task;
 					})
+				}
+
+				if (Type.isObject(item.dialog.fields))
+				{
+					let dialogFields = [];
+					item.dialog.fields.forEach((dialogField, dialogIndex) => {
+						let field = Stage.getDialogFieldItem();
+						field = Object.assign(field, dialogField);
+
+						dialogFields[dialogIndex] = field
+					})
+
+					item.dialog.fields = dialogFields;
 				}
 
 				state[Module.STAGE].push(item);

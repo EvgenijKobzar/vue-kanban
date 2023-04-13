@@ -366,16 +366,16 @@ export default class Stage
 			},
 			addComment(state, payload)
 			{
-				console.log(payload)
-				return new Promise((resolve, reject) => {
-					resolve()
-				})
-				// const cmd = 'task.comment.add';
-				//
-				// return (new Rest({
-				// 		cmd,
-				// 		fields: payload.fields
-				// 	}))
+				// console.log(payload)
+				// return new Promise((resolve, reject) => {
+				// 	resolve()
+				// })
+				const cmd = 'task.comment.add';
+
+				return (new Rest({
+						cmd,
+						fields: payload.fields
+					}))
 			}
 		}
 	}

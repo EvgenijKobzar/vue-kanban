@@ -156,7 +156,7 @@
 	{
 		store.dispatch('addComment', {
 			fields: {
-				content: 'addComment',
+				content: e.comment,
 				taskId: e.item.id,
 			}
 		})

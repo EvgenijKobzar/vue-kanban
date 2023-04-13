@@ -17,7 +17,7 @@ export default class KanbanShipmentRoute
 						fields: [
 							{name: 'Вся сумма', type: DialogFieldTypes.MONEY_RUB},
 							{name: 'Проходы', type: DialogFieldTypes.SELECT, variant: [
-								'Оплачивает Перевозчик', 'Оплачивает Заказчик', 'Не требуются']},
+								'Не требуются', 'Оплачивает Заказчик', 'Оплачивает Перевозчик']},
 						]
 					},
 						{

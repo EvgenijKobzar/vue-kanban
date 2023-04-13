@@ -50,14 +50,16 @@
 					<v-btn
 							color="pink-darken-1"
 							variant="text"
-							@click="closeDialog"
+							@click="cancel"
 					>
 						Отменить
 					</v-btn>
 					<v-btn
+							:disabled="state.wait"
+							:loading="state.wait"
 							color="green-darken-1"
 							variant="text"
-							@click="closeDialog"
+							@click="save"
 					>
 						Сохранить
 					</v-btn>
@@ -75,31 +77,35 @@ import {DialogFieldTypes} from "../enum/dialog-field-types.js";
 
 const props = defineProps([
 	'subheaders',
-	'show'
+	'show',
+	'itemId',
 ]);
 
 const emit = defineEmits([
-	'close-stage-dialog',
+	'on-cancel-close-stage-dialog',
+	'on-save-close-stage-dialog',
 ]);
 
 const detailPageUrl = computed(() => props.show)
 
 watch(detailPageUrl, (newX) => {
 	state.dialog = newX
+	state.wait = !newX
 })
 
-function log(props)
+function save()
 {
-	console.log('@@@', props)
+	state.wait = true;
+	emit('on-save-close-stage-dialog', {item: {id: props.itemId}});
 }
-
-function closeDialog()
+function cancel()
 {
-	emit('close-stage-dialog');
+	emit('on-cancel-close-stage-dialog', {item: {id: props.itemId}});
 }
 
 const state = reactive({
 	dialog: false,
+	wait: false,
 })
 </script>
 

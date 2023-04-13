@@ -16,7 +16,9 @@
 	<KanbanStageDialog v-if="stage.dialog.subheaders"
 			:subheaders="stage.dialog.subheaders"
 			:show="state.showDialog"
-			@close-stage-dialog="state.showDialog = false"></KanbanStageDialog>
+			:itemId="state.itemIdDialog"
+			@on-cancel-close-stage-dialog="onCancelDialog"
+			@on-save-close-stage-dialog="onSaveDialog"></KanbanStageDialog>
 </template>
 
 <script setup>
@@ -30,6 +32,7 @@
 
 	const state = reactive({
 		showDialog: false,
+		itemIdDialog: null,
 	})
 
 
@@ -92,32 +95,41 @@
 		// return false;
 	}
 
-	function onStageChange(originalEvent)
+	function resolveItem(originalEvent)
 	{
-		const item = originalEvent?.added
+		return originalEvent?.added
 				? originalEvent.added.element
 				: originalEvent?.moved
 						? originalEvent.moved.element
-						: null
+						: originalEvent?.removed
+								? originalEvent.removed.element
+								: null
+	}
+	function onStageChange(originalEvent)
+	{
+		const item = resolveItem(originalEvent)
 
 		if (item?.id)
 		{
-			originalEvent?.added
-					? state.showDialog = true
-					: null
+			if (originalEvent?.added)
+			{
+				setDialogParams({show: true, itemId: item.id,})
 
-			store.dispatch('updateTask', {
-				id: item.id,
-				fields: {
-					customFieldStatus: props.stage.title
-				}
-			});
+				store.dispatch('updateTask', {
+					id: item.id,
+					fields: {
+						customFieldStatus: props.stage.title
+					}
+				})
+			}
+			else if (originalEvent?.removed)
+			{
+				setDialogParams({show: false, itemId: item.id,})
+			}
 		}
 
 		if (originalEvent?.removed)
 		{
-			state.showDialog = false;
-
 			console.log('removed', originalEvent?.removed.element.id)
 		}
 		else if(originalEvent?.added)
@@ -134,5 +146,26 @@
 		}
 	}
 
+	function setDialogParams(params)
+	{
+		state.showDialog = params.show
+		state.itemIdDialog = params.itemId
+	}
+
+	function onSaveDialog(e)
+	{
+		store.dispatch('addComment', {
+			fields: {
+				content: 'addComment',
+				taskId: e.item.id,
+			}
+		})
+		.then(() => setDialogParams({show: false, itemId: e.item.id,}))
+	}
+
+	function onCancelDialog(e)
+	{
+		setDialogParams({show: false, itemId: e.item.id,})
+	}
 
 </script>

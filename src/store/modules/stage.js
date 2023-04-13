@@ -219,27 +219,6 @@ export default class Stage
 		return result;
 	}
 
-	static validateDialogSubHeader(fields)
-	{
-		const result = {};
-
-		if (Type.isString(fields.title))
-		{
-			result.title = fields.title.toString();
-		}
-
-		if (Type.isObject(fields.fields))
-		{
-			result.fields = [];
-			fields.fields.forEach((item)=>{
-				let fields = Stage.validateDialogField(item);
-				result.fields.push(fields);
-			})
-		}
-
-		return result;
-	}
-
 	getActions()
 	{
 		return {
@@ -277,10 +256,6 @@ export default class Stage
 			},
 			addComment(state, payload)
 			{
-				// console.log(payload)
-				// return new Promise((resolve, reject) => {
-				// 	resolve()
-				// })
 				const cmd = 'task.comment.add';
 
 				return (new Rest({

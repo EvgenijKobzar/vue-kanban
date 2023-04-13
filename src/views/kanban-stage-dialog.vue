@@ -23,6 +23,12 @@
 												:label="field.name"
 												v-model="state.dialogFields[field.name]"
 										></v-text-field>
+										<v-text-field						v-if="field.type === DialogFieldTypes.MONEY_RUB"
+												:label="field.name"
+												mask="#"
+												suffix="руб"
+												v-model="state.dialogFields[field.name]"
+										></v-text-field>
 										<v-textarea							v-if="field.type === DialogFieldTypes.TEXTAREA"
 												:label="field.name"
 												auto-grow
@@ -46,7 +52,7 @@
 						</v-card-text>
 				</template>
 				<v-card-text>
-					<small>*обязательные поля</small>
+<!--					<small>*обязательные поля</small>-->
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
@@ -101,9 +107,6 @@ watch(detailPageUrl, (newX) => {
 	state.dialog = newX
 	state.wait = !newX
 })
-
-// const dialogFields = computed(() => state.dialogFields)
-// const dialogFieldsCheckBox = computed(() => state.dialogFieldsCheckBox)
 
 function makeMessageToComment()
 {

@@ -26,7 +26,6 @@ export default class Stage
 			sort: 0,
 			title: null,
 			background: null,
-			dialog: Stage.getDialogItem(),
 			tasks: [],
 		};
 	}
@@ -67,33 +66,6 @@ export default class Stage
 		};
 	}
 
-	static getDialogItem()
-	{
-		return {
-			subheaders: []
-		}
-	}
-
-	static getDialogSubHeaderItem()
-	{
-		return {
-			title: null,
-			fields: []
-		}
-	}
-
-	static getDialogSubHeaderFieldItem()
-	{
-		return {
-			name: null,
-			code: null,
-			value: null,
-			type: null,
-			required: false,
-			variant: [],
-		}
-	}
-
 	static validate(fields)
 	{
 		const result = {};
@@ -127,11 +99,6 @@ export default class Stage
 				let fields = Stage.validateTasks(item);
 				result.tasks.push(fields);
 			})
-		}
-
-		if (Type.isObject(fields.dialog))
-		{
-			result.dialog = Stage.validateDialog(fields.dialog);
 		}
 
 		return result;
@@ -225,43 +192,6 @@ export default class Stage
 		return result;
 	}
 
-	static validateDialogField(fields)
-	{
-		const result = {};
-
-		if (Type.isString(fields.name))
-		{
-			result.name = fields.name.toString();
-		}
-
-		if (Type.isString(fields.code))
-		{
-			result.code = fields.code.toString();
-		}
-
-		if (Type.isString(fields.value))
-		{
-			result.value = fields.value.toString();
-		}
-
-		if (Type.isBoolean(fields.required))
-		{
-			result.required = fields.required;
-		}
-
-		if (Type.isString(fields.type))
-		{
-			result.type = fields.type.toString();
-		}
-
-		if (Type.isArrayFilled(fields.variant))
-		{
-			result.variant = fields.variant;
-		}
-
-		return result;
-	}
-
 	static validateResponsible(fields)
 	{
 		const result = {};
@@ -284,22 +214,6 @@ export default class Stage
 		if (Type.isString(fields.color))
 		{
 			result.color = fields.color.toString();
-		}
-
-		return result;
-	}
-
-	static validateDialog(fields)
-	{
-		const result = {};
-
-		if (Type.isObject(fields.subheaders))
-		{
-			result.subheaders = [];
-			fields.subheaders.forEach((item)=>{
-				let fields = Stage.validateDialogSubHeader(item);
-				result.subheaders.push(fields);
-			})
 		}
 
 		return result;
@@ -353,16 +267,13 @@ export default class Stage
 			},
 			updateTask(state, payload)
 			{
-				return new Promise((resolve, reject) =>
-				{
-					const cmd = 'task.task.update';
+				const cmd = 'task.task.update';
 
-					(new Rest({
-						cmd,
-						id: payload.id,
-						fields: payload.fields
-					}))
-				})
+				return (new Rest({
+					cmd,
+					id: payload.id,
+					fields: payload.fields
+				}))
 			},
 			addComment(state, payload)
 			{
@@ -412,32 +323,6 @@ export default class Stage
 
 						item.tasks[index] = task;
 					})
-				}
-
-				if (Type.isObject(item.dialog.subheaders))
-				{
-					let dialogSubHeaders = [];
-					item.dialog.subheaders.forEach((subheader, shIndex) => {
-						let field = Stage.getDialogSubHeaderItem();
-						field = Object.assign(field, subheader);
-
-						if (Type.isObject(field.fields))
-						{
-							let dialogSubHeaderFields = [];
-							field.fields.forEach((subheaderFields, shfIndex) => {
-								let field = Stage.getDialogSubHeaderFieldItem();
-								field = Object.assign(field, subheaderFields);
-
-								dialogSubHeaderFields[shfIndex] = field
-							})
-
-							field.fields = dialogSubHeaderFields;
-						}
-
-						dialogSubHeaders[shIndex] = field
-					})
-
-					item.dialog.subheaders = dialogSubHeaders;
 				}
 
 				state[Module.STAGE].push(item);

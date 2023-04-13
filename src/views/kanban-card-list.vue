@@ -13,8 +13,8 @@
 			<KanbanCardItem :item="element" v-if="element.hidden === false" @find-by-tag-card-item="findByTag"/>
 		</template>
 	</draggable>
-	<KanbanStageDialog v-if="stage.dialog.subheaders"
-			:subheaders="stage.dialog.subheaders"
+	<KanbanStageDialog v-if="config.dialog.subheaders"
+			:subheaders="config.dialog.subheaders"
 			:show="state.showDialog"
 			:itemId="state.itemIdDialog"
 			@on-cancel-close-stage-dialog="onCancelDialog"
@@ -29,12 +29,12 @@
 	import {computed, reactive} from 'vue'
 	import { useStore } from 'vuex'
 	import KanbanStageDialog from "./kanban-stage-dialog.vue";
+	import KanbanShipmentRoute from "../config/kanban-shipment-route.js";
 
 	const state = reactive({
 		showDialog: false,
 		itemIdDialog: null,
 	})
-
 
 	const props = defineProps([
 		'stage',
@@ -45,6 +45,8 @@
 	]);
 
 	const store = useStore()
+
+	const config = computed(() => KanbanShipmentRoute.getStageList().find((stage) => stage.title === props.stage.title))
 	const items = computed({
 		get() {
 			return store.getters.getStageByName(props.stage.title).tasks

@@ -66,13 +66,14 @@ export default class RestHandler
 						title: 'Информация для водителя',
 						fields: [
 							{name: 'Вся сумма', type: DialogFieldTypes.TEXT},
-							{name: 'Проходы', type: DialogFieldTypes.SELECT, variant: ['Включены', 'Отдельно', 'Отсутсвуют']},
+							{name: 'Проходы', type: DialogFieldTypes.SELECT, variant: ['Оплачивает Перевозчик', 'Оплачивает Заказчик', 'не требуются']},
 						]
 					},
 						{
 							title: 'Заявка',
 							fields: [
 								{name: 'Ссылка в 4Logistic', type: DialogFieldTypes.TEXT,},
+								{name: 'Водителю заявка отправлена в чат', type: DialogFieldTypes.SELECT, variant: ['Отправлена', 'Нет']},
 							]
 						}
 					],

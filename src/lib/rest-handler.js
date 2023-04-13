@@ -60,22 +60,22 @@ export default class RestHandler
 				dialog: {},
 			},
 			{
-				title: "Выполняется (менеджер)",
-				dialog: {},
-			},
-			{
 				title: "К перевозке (транспорт)",
 				dialog: {
 					subheaders: [{
 						title: 'Информация для водителя',
 						fields: [
-							{name: 'Дата', type: DialogFieldTypes.TEXT,},
-							{name: 'Место', type: DialogFieldTypes.TEXT,},
-							{name: 'Контакт на загрузке', type: DialogFieldTypes.TEXT,},
-							{name: 'Контакт на выгрузке', type: DialogFieldTypes.TEXT,},
-							{name: 'Заявка (ссылка в 4Logistic)', type: DialogFieldTypes.TEXT,},
+							{name: 'Вся сумма', type: DialogFieldTypes.TEXT},
+							{name: 'Проходы', type: DialogFieldTypes.SELECT, variant: ['Включены', 'Отдельно', 'Отсутсвуют']},
 						]
-					}],
+					},
+						{
+							title: 'Заявка',
+							fields: [
+								{name: 'Ссылка в 4Logistic', type: DialogFieldTypes.TEXT,},
+							]
+						}
+					],
 				}
 			},
 			{
@@ -86,13 +86,19 @@ export default class RestHandler
 				title: "Счета (бухгалтерия)",
 				dialog: {
 					subheaders: [{
-						title: 'Информация для выставления счетов бухгалтерией и дальнейшего их согласования',
-						fields: [
-							{name: 'Клиент (ссылка в 4Logistic или Мегаплан)', type: DialogFieldTypes.TEXT},
-							{name: 'Итоговая сумма для выставления счета', type: DialogFieldTypes.TEXT},
-							{name: 'Дополнительная информация для выставления счета', type: DialogFieldTypes.TEXT},
-						]
-					}],
+							title: 'Информация для выставления счетов бухгалтерией и дальнейшего их согласования',
+							fields: [
+								{name: 'Клиент (ссылка в 4Logistic или Мегаплан)', type: DialogFieldTypes.TEXT},
+								{name: 'Итоговая сумма для выставления счета', type: DialogFieldTypes.TEXT},
+								{name: 'Дополнительная информация для выставления счета', type: DialogFieldTypes.TEXTAREA},
+							]
+						},
+						{
+							title: 'Расчет ЗП для водителя',
+							fields: [
+								{name: 'Сумма для расчета ЗП', type: DialogFieldTypes.TEXT},
+							]
+						}],
 				}
 			},
 			{

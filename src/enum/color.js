@@ -1,6 +1,5 @@
 export const Pack = Object.freeze([
 	'light-blue-darken-2',
-	'blue-lighten-1',
 	'teal-darken-1',
 	'red-lighten-1',
 	'purple-lighten-1',

@@ -90,6 +90,7 @@ export default class Stage
 			value: null,
 			type: null,
 			required: false,
+			variant: [],
 		}
 	}
 
@@ -253,6 +254,11 @@ export default class Stage
 			result.type = fields.type.toString();
 		}
 
+		if (Type.isArrayFilled(fields.variant))
+		{
+			result.variant = fields.variant;
+		}
+
 		return result;
 	}
 
@@ -402,23 +408,23 @@ export default class Stage
 						let field = Stage.getDialogSubHeaderItem();
 						field = Object.assign(field, subheader);
 
+						if (Type.isObject(field.fields))
+						{
+							let dialogSubHeaderFields = [];
+							field.fields.forEach((subheaderFields, shfIndex) => {
+								let field = Stage.getDialogSubHeaderFieldItem();
+								field = Object.assign(field, subheaderFields);
+
+								dialogSubHeaderFields[shfIndex] = field
+							})
+
+							field.fields = dialogSubHeaderFields;
+						}
+
 						dialogSubHeaders[shIndex] = field
 					})
 
 					item.dialog.subheaders = dialogSubHeaders;
-
-					if (Type.isObject(item.dialog.subheaders.fields))
-					{
-						let subheaderFields = [];
-						item.dialog.fields.forEach((subheaderFields, fIndex) => {
-							let field = Stage.getDialogSubHeaderFieldItem();
-							field = Object.assign(field, subheaderFields);
-
-							subheaderFields[fIndex] = field
-						})
-
-						item.dialog.subheaders.fields = subheaderFields;
-					}
 				}
 
 				state[Module.STAGE].push(item);

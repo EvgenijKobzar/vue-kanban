@@ -4,7 +4,7 @@
 				persistent
 				v-model="state.dialog"
 				width="1024"
-		>{{state.dialog}}
+		>
 			<v-card>
 				<template v-for="subheader in subheaders">
 						<v-card-title>
@@ -23,9 +23,20 @@
 												:label="field.name"
 
 										></v-text-field>
+										<v-textarea							v-if="field.type === DialogFieldTypes.TEXTAREA"
+												:label="field.name"
+												auto-grow
+												variant="outlined"
+											  rows="3"
+											  row-height="25"
+										></v-textarea>
 										<v-checkbox							v-else-if="field.type === DialogFieldTypes.CHECKBOX"
 												:label="field.name"
 										></v-checkbox>
+										<v-select								v-else-if="field.type === DialogFieldTypes.SELECT"
+												:items="field.variant"
+												:label="field.name"
+										></v-select>
 									</v-col>
 								</v-row>
 							</v-container>

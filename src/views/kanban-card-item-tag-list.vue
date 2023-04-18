@@ -1,26 +1,22 @@
 <template>
-		<div class="d-flex mt-3 justify-between items-center">
+		<div class="d-flex mt-3 flex-wrap">
 			<template v-for="tag in items">
-				<v-chip v-if="tag.value"
+				<v-chip v-if="tag.value" class="mb-2 ml-1"
 								:size="tag.size"
 								:color="tag.color"
 								:variant="tag.variant"
 								@click="findByTag(tag)"
 				>
-					{{tag.value}}
+					{{getName(tag.value)}}
 				</v-chip>
 			</template>
 		</div>
 </template>
 
 <script setup>
-import ColorTheme from "../lib/color-theme.js";
 import {MutationTypes} from "../enum/mutation-types.js";
 import {useStore} from "vuex";
 import {computed} from "vue";
-import KanbanCardItemAvatar from "./kanban-card-item-avatar.vue";
-import KanbanCardItemAttaches from "./kanban-card-item-attaches.vue";
-import KanbanCardItemComments from "./kanban-card-item-comments.vue";
 
 defineProps([
 	'items',
@@ -31,6 +27,13 @@ const emit = defineEmits([
 ]);
 
 const store = useStore()
+
+function getName(value)
+{
+	return value.length > 30
+			? value.substring(0, 30) + ' ...'
+			: value
+}
 
 function findByTag(item)
 {
@@ -69,4 +72,3 @@ function findByTag(item)
 }
 
 </script>
-

@@ -19,9 +19,11 @@ export const Theme = Object.freeze({
 	GREEN: {
 		PRIMARY: 'green-lighten-1',
 		ALERT: 'green-lighten-1',
+		SECONDARY: 'grey-lighten-2',
 	},
 	BLUE: {
 		PRIMARY: 'blue-lighten-1',
 		ALERT: 'red-darken-1',
+		SECONDARY: 'grey-lighten-2',
 	},
 });

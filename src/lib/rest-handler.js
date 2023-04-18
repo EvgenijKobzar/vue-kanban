@@ -156,6 +156,15 @@ export default class RestHandler
 					color: ColorTheme.getTheme().PRIMARY,
 				})
 			}
+			else if(item.code === 'parentName')
+			{
+				result.push({
+					code: item.code,
+					value: item?.value,
+
+					color: ColorTheme.getTheme().SECONDARY,
+				})
+			}
 			else
 			{
 				result.push({

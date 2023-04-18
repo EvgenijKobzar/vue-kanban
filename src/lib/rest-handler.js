@@ -124,7 +124,7 @@ export default class RestHandler
 			{
 				result.push({
 					id: item.id,
-					title: this.#trimPrefix(item.name),
+					title: item.name,
 					relationLinksCount: item.relationLinksCount,
 					commentsAttachesCount: item.commentsAttachesCount,
 					commentsCount: item.commentsCount,
@@ -177,9 +177,5 @@ export default class RestHandler
 			avatar: item.avatar.replace('{width}', 100).replace('{height}', 100),
 			color: Color.stringToColour(item.name),
 		}
-	}
-	#trimPrefix(value)
-	{
-		return value.split(RestHandler.getPrefixFilterTaskName() + ' ')[1];
 	}
 }

@@ -2,6 +2,11 @@ import {DialogFieldTypes} from "../enum/dialog-field-types.js";
 
 export default class KanbanShipmentRoute
 {
+	static getName()
+	{
+		return 'АТ-Заявки'
+	}
+
 	static getStageList()
 	{
 		return [
@@ -41,7 +46,7 @@ export default class KanbanShipmentRoute
 						title: 'Информация для выставления счетов бухгалтерией и дальнейшего их согласования',
 						fields: [
 							{name: 'Клиент (ссылка в 4Logistic или Мегаплан)', type: DialogFieldTypes.TEXT},
-							{name: 'Итоговая сумма для выставления счета', type: DialogFieldTypes.TEXT},
+							{name: 'Итоговая сумма для выставления счета', type: DialogFieldTypes.MONEY_RUB},
 							{name: 'Дополнительная информация для выставления счета', type: DialogFieldTypes.TEXTAREA},
 						]
 					},
@@ -49,6 +54,7 @@ export default class KanbanShipmentRoute
 							title: 'Расчет ЗП для водителя',
 							fields: [
 								{name: 'Сумма для расчета ЗП', type: DialogFieldTypes.MONEY_RUB},
+								{name: 'Какие суммы не входят в стоимость фрахта для расчета ЗП', type: DialogFieldTypes.TEXTAREA},
 							]
 						}],
 				}

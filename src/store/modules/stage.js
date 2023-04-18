@@ -4,6 +4,7 @@ import {Module} from "../../enum/module.js";
 import {MutationTypes} from "../../enum/mutation-types.js";
 import Rest from "../../provider/rest.js";
 import RestHandler from "../../lib/rest-handler.js";
+import KanbanShipmentRoute from "../../config/kanban-shipment-route.js";
 
 
 export default class Stage
@@ -230,8 +231,8 @@ export default class Stage
 					const handler = new RestHandler({ state });
 
 					const filter = {};
-					const likeName = '%name';
-					filter[likeName] = RestHandler.getPrefixFilterTaskName();
+					const likeName = 'kanbanName';
+					filter[likeName] = KanbanShipmentRoute.getName();
 
 					(new Rest({
 						cmd,

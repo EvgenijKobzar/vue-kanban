@@ -61,17 +61,17 @@ export default class RestHandler
 		// const uniq = this.#getUniqStages(r.tasks)
 		const uniq = KanbanShipmentRoute.getStageList();
 
-		const stages = this.#createStageCollection(uniq)
+		const stages = RestHandler.createStageCollection(uniq)
 
 		stages.forEach((stage) => {
 
-			stage.tasks = this.#getTaskListByStageName(r.tasks, stage.title)
+			stage.tasks = RestHandler.getTaskListByStageName(r.tasks, stage.title)
 
 			this.state.commit(MutationTypes.ADD_ITEM, { fields: stage });
 		})
 	}
 
-	#createStageCollection(items)
+	static createStageCollection(items)
 	{
 		const stages = [];
 		const firstInx = 0;
@@ -115,7 +115,7 @@ export default class RestHandler
 		return  [ ...new Set(result) ];
 	}
 
-	#getTaskListByStageName(items, name)
+	static getTaskListByStageName(items, name)
 	{
 		const result = [];
 
@@ -129,8 +129,8 @@ export default class RestHandler
 					commentsAttachesCount: item.commentsAttachesCount,
 					commentsCount: item.commentsCount,
 					unreadCommentsCount: item.unreadCommentsCount,
-					tags: this.#internalizeTagList(item.tags),
-					responsible: this.#internalizeResponsible(item.responsible),
+					tags: RestHandler.internalizeTagList(item.tags),
+					responsible: RestHandler.internalizeResponsible(item.responsible),
 				})
 			}
 		})
@@ -138,7 +138,7 @@ export default class RestHandler
 		return result;
 	}
 
-	#internalizeTagList(items)
+	static internalizeTagList(items)
 	{
 		const result = [];
 
@@ -178,7 +178,7 @@ export default class RestHandler
 		return result;
 	}
 
-	#internalizeResponsible(item)
+	static internalizeResponsible(item)
 	{
 		return {
 			name: item.name,

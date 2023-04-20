@@ -39,7 +39,7 @@ export default class RestHandler
 
 	handleTaskTaskListSuccess(r)
 	{
-		this.#refresh(r)
+		this.refresh(r)
 	}
 
 	handleTaskTaskListError(r)
@@ -47,14 +47,7 @@ export default class RestHandler
 
 	}
 
-	static getPrefixFilterTaskName()
-	{
-		return '[заявка]'
-	}
-
-
-
-	#refresh(r)
+	refresh(r)
 	{
 		this.state.commit(MutationTypes.CLEAR);
 

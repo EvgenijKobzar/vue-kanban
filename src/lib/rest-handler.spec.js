@@ -2,6 +2,8 @@ import {describe, expect, it } from 'vitest'
 import RestHandler from "./rest-handler.js";
 import KanbanShipmentRoute from "../config/kanban-shipment-route.js";
 import {StageColor} from "../enum/color.js";
+import {MutationTypes} from "../enum/mutation-types.js";
+import store from "../store"
 
 const responsibleFrom = {
 	name: 'Кобзарь Евгений',
@@ -49,6 +51,44 @@ const taskListTo = [{
 	tags: tagsTo,
 }]
 
+const firstStage = {
+	sort: 1,
+	title: "Новые",
+	background: "light-blue-darken-2",
+	tasks: [
+		{
+			id: 1001317,
+			title: "Тестовая заявка",
+			relationLinksCount: 0,
+			commentsAttachesCount: 0,
+			commentsCount: 1,
+			unreadCommentsCount: 0,
+			hidden: false,
+			tags: [
+				{
+					code: "parentName",
+					value: "test",
+					variant: "elevated",
+					size: "x-small",
+					color: "grey-lighten-2"
+				},
+				{
+					code: "timeCreated",
+					value: "13 апр",
+					variant: "outlined",
+					size: "x-small",
+					color: "green-lighten-1"
+				},
+				{
+					code: "сustomFieldTyagach",
+					value: "M864KT 39",
+					variant: "elevated",
+					size: "x-small",
+					color: "#94446b"
+				}],
+			responsible: responsibleTo
+		}]}
+
 describe("RestHandler", () => {
 	it("import without error",
 		() => {
@@ -73,5 +113,22 @@ describe("RestHandler", () => {
 		const uniq = KanbanShipmentRoute.getStageList();
 		const stages = RestHandler.createStageCollection(uniq);
 		expect(stages[8].background).toBe(StageColor.LAST)
+	});
+})
+
+describe("Vuex", () => {
+	it('store stage - clear', () => {
+		store.commit(MutationTypes.CLEAR);
+		expect(store.state.stage.stage).toHaveLength(0);
+	});
+	it('refresh - Stage Length', () => {
+		const handler = new RestHandler({state: store});
+		handler.refresh({tasks: taskListFrom})
+		expect(store.state.stage.stage).toHaveLength(9);
+	});
+	it('refresh - First stage with task list', () => {
+		const handler = new RestHandler({state: store});
+		handler.refresh({tasks: taskListFrom})
+		expect(store.state.stage.stage[0]).toEqual(firstStage);
 	});
 })

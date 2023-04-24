@@ -1,5 +1,6 @@
 import { afterEach, describe, it, expect, vi} from "vitest";
 import { mount } from "@vue/test-utils"
+import flushPromises from 'flush-promises'
 import component from "./kanban.vue";
 
 import { createVuetify } from 'vuetify'
@@ -39,8 +40,9 @@ describe('Stage list ', () => {
 		expect(view).toBeDefined();
 		expect(actions.init).toHaveBeenCalledOnce();
 	});
-	it('Action Init - Called Once', () => {
+	it('Action Init - Called Once', async () => {
 		mount(component, {global: {plugins: [vuetify, store]},})
+		await flushPromises()
 		expect(actions.init).toHaveBeenCalledOnce();
 	})
 })

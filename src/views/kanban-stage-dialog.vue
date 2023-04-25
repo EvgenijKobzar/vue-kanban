@@ -3,7 +3,10 @@
 		<v-dialog
 				persistent
 				v-model="state.dialog"
-				width="1024"
+				width="50%"
+				fullscreen
+				contentClass="dialog-right"
+				transition="scroll-x-reverse-transition"
 		>
 			<v-card>
 				<template v-for="subheader in subheaders">
@@ -15,8 +18,8 @@
 								<v-row>
 									<v-col
 											cols="12"
-											sm="6"
-											md="6"
+											sm="12"
+											md="12"
 											v-for="(field, inx) in subheader.fields"
 									>
 										<v-text-field						v-if="field.type === DialogFieldTypes.TEXT"
@@ -138,5 +141,10 @@ function cancel()
 .dialog-bottom-transition-enter-active,
 .dialog-bottom-transition-leave-active {
 	transition: transform .2s ease-in-out;
+}
+
+.dialog-right {
+	left: auto !important;
+	right:0;
 }
 </style>

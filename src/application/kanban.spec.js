@@ -41,8 +41,10 @@ describe('Stage list ', () => {
 		expect(actions.init).toHaveBeenCalledOnce();
 	});
 	it('Action Init - Called Once', async () => {
-		mount(component, {global: {plugins: [vuetify, store]},})
+		const wrapper = mount(component, {global: {plugins: [vuetify, store]},})
 		await flushPromises()
+		await wrapper.vm.$nextTick()
+		console.log(wrapper.html());
 		expect(actions.init).toHaveBeenCalledOnce();
 	})
 })
